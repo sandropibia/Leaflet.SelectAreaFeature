@@ -48,9 +48,10 @@ The following options are available with SelectFeature (showing you here with th
 </dl>  
 
 You may modify the options once the plugin is enabled, for example;
-
+```javascript
 <p>  selectfeature.options.color = '#663399' ;</p>
 <p>  selectfeature.options.weight = 1 ;</p>
+```
 
 ### Methods
 <p>The following methods are supported by the plugin:</p>
