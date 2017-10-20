@@ -5,39 +5,36 @@
 </head>
 <body>
 
-<h1 id="header-1"><a href="#header-1"></a>Leaflet.SelectFeature</h1>
+#Leaflet.SelectFeature
 Plugin that selects feature(s) by drawing an area on the map
 
 This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
 
 
-<h2 id="header-2"><a href="#header-2"></a>Usage</h2>
+##Usage
 
 Include Leaflet.SelectFeature in your JavaScript project using `npm install leaflet-selectfeature`.
 
 You can then include Leaflet.SelectFeature in your web application by adding the following HTML tags (paths below are relative to your project's root):
 
-...
+```
 <script src="./lib/js/Leaflet.SelectFeature.js"></script>
-...
+```
 
 Put it after leaflet is loaded.
 Once your page is loaded you can easily use it by enable it like:
-<div><code>
-<span>var selectfeature = map.selectFeature.enable();</span>
-</code>
-</div>
+```javascript
+var selectfeature = map.selectFeature.enable();
+```
 
 After the plugin is enabled the user can draw an area by holding the left mouse button and start drawing. You can disable the plugin by:
-
-<div><code>
-<span>selectfeature.disable();</span>
-</code>
-</div>
+```javascript
+selectfeature.disable();
+```
 
 Than the mouse events for drawing stop working with the map.
 
-<h3 id="header-3"><a href="#header-3"></a>Options</h3>
+###Options
 The following options are available with SelectFeature (showing you here with the default settings):
 
 <dl>
@@ -55,7 +52,7 @@ You may modify the options once the plugin is enabled, for example;
 <p>  selectfeature.options.color = '#663399' ;</p>
 <p>  selectfeature.options.weight = 1 ;</p>
 
-<h3 id="header-3"><a href="#header-3"></a>Methods</h3>
+###Methods
 <p>The following methods are supported by the plugin:</p>
 
 
