@@ -5,7 +5,7 @@
 </head>
 <body>
 
-# Leaflet.SelectFeature
+# Leaflet.SelectAreaFeature
 Plugin that selects feature(s) by drawing an area on the map
 
 This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
