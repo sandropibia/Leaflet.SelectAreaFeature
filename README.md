@@ -23,9 +23,9 @@ You can then include Leaflet.SelectFeature in your web application by adding the
 
 Put it after leaflet is loaded.
 Once your page is loaded you can easily use it by enable it like:
-<div class="language-js highlighter-rouge"><pre class="highlight"><code>
-<span class="kd">var</span> <span class="nx">selectfeature</span> <span class="o">=</span> <span class="kd">map.selectFeature.enable();</span>
-</code></pre>
+<div><code>
+<span>var selectfeature = map.selectFeature.enable();</span>
+</code>
 </div>
 After the plugin is enabled the user can draw an area by holding the left mouse button and start drawing. You can disable the plugin by:
 
