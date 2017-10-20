@@ -10,6 +10,8 @@ Plugin that selects feature(s) by drawing an area on the map
 
 This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
 
+## Example
+<p>Here you can find an example </p>
 
 ## Usage
 
@@ -62,10 +64,6 @@ You may modify the options once the plugin is enabled, for example;
 <li><strong>getFeaturesSelected('layertype')</strong></li> returns an array of the layers wich are in the bounding box of the area drawn
 layertype can be: 'polygon'/'polyline'/'circle'/'rectangle' 
 </ul>
-
-## Example
-<p>Here you can find an example 
-
 
 </body>
 </html>
