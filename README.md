@@ -5,13 +5,13 @@
 </head>
 <body>
 
-#Leaflet.SelectFeature
+# Leaflet.SelectFeature
 Plugin that selects feature(s) by drawing an area on the map
 
 This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
 
 
-##Usage
+## Usage
 
 Include Leaflet.SelectFeature in your JavaScript project using `npm install leaflet-selectfeature`.
 
@@ -34,7 +34,7 @@ selectfeature.disable();
 
 Than the mouse events for drawing stop working with the map.
 
-###Options
+### Options
 The following options are available with SelectFeature (showing you here with the default settings):
 
 <dl>
@@ -52,7 +52,7 @@ You may modify the options once the plugin is enabled, for example;
 <p>  selectfeature.options.color = '#663399' ;</p>
 <p>  selectfeature.options.weight = 1 ;</p>
 
-###Methods
+### Methods
 <p>The following methods are supported by the plugin:</p>
 
 
