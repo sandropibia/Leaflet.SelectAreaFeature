@@ -33,8 +33,6 @@ selectfeature.disable();
 
 Than the mouse events for drawing stop working with the map.
 
-
-
 <h3 id="header-3"><a href="#header-3"></a>Options</h3>
 The following options are available with SelectFeature (showing you here with the default settings):
 
@@ -48,11 +46,13 @@ The following options are available with SelectFeature (showing you here with th
   <dt>}</dt>
 </dl>  
 
-You may modify the options once the plugin is enabled by, for example;
+You may modify the options once the plugin is enabled, for example;
 
 <p>  selectfeature.options.color = '#663399' ;</p>
 <p>  selectfeature.options.weight = 1 ;</p>
 
+<h3 id="header-3"><a href="#header-3"></a>Methods</h3>
+<p>The following methods are supported by the plugin:</p>
 
 
 
