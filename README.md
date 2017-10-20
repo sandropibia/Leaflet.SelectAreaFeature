@@ -56,13 +56,15 @@ You may modify the options once the plugin is enabled, for example;
 ### Methods
 <p>The following methods are supported by the plugin:</p>
 <ul>
-<li>getBoundsAreaLatLon</li> gets all LatLngs for the area that was last drawn on the map
-<li>doRemoveAllSelection</li> removes all area's drawn on the map
-<li>doRemoveLastSelection</li> removes the las area drawn on the map
-<li>getFeaturesSelected('layertype')</li> returns an array of the layers wich are in the bounding box of the area drawn
+<li>```getBoundsAreaLatLon```</li> gets all LatLngs for the area that was last drawn on the map
+<li>```doRemoveAllSelection```</li> removes all area's drawn on the map
+<li>```doRemoveLastSelection```</li> removes the las area drawn on the map
+<li>```getFeaturesSelected('layertype')```</li> returns an array of the layers wich are in the bounding box of the area drawn
 layertype can be: 'polygon'/'polyline'/'circle'/'rectangle' 
 </ul>
 
+## Example
+<p>Here you can find an example 
 
 
 </body>
