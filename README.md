@@ -27,9 +27,13 @@ Once your page is loaded you can easily use it by enable it like:
 <span>var selectfeature = map.selectFeature.enable();</span>
 </code>
 </div>
+
 After the plugin is enabled the user can draw an area by holding the left mouse button and start drawing. You can disable the plugin by:
 
-selectfeature.disable();
+<div><code>
+<span>selectfeature.disable();</span>
+</code>
+</div>
 
 Than the mouse events for drawing stop working with the map.
 
