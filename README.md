@@ -15,18 +15,18 @@ This plugin let the user draw an area on the map. As a developer you can get the
 
 ## Usage
 
-Include Leaflet.SelectFeature in your JavaScript project using `npm install leaflet-selectfeature`.
+Include Leaflet.SelectFeature in your JavaScript project using `npm install leaflet-selectareafeature`.
 
 You can then include Leaflet.SelectFeature in your web application by adding the following HTML tags (paths below are relative to your project's root):
 
 ```
-<script src="./lib/js/Leaflet.SelectFeature.js"></script>
+<script src="./lib/js/Leaflet.SelectAreaFeature.js"></script>
 ```
 
 Put it after leaflet is loaded.
 Once your page is loaded you can easily use it by enable it like:
 ```javascript
-var selectfeature = map.selectFeature.enable();
+var selectfeature = map.selectAreaFeature.enable();
 ```
 
 After the plugin is enabled the user can draw an area by holding the left mouse button and start drawing. You can disable the plugin by:
