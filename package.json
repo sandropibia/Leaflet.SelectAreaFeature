@@ -1,0 +1,25 @@
+{
+  "name": "leaflet-selectareafeature",
+  "version": "0.1.0",
+  "description": "Plugin that selects feature(s) by drawing an area on the map",
+  "main": "dist/Leaflet.SelectAreaFeature.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandropibia/Leaflet.SelectAreaFeature.git"
+  },
+  "keywords": [
+    "leaflet",
+    "selectfeature",
+    "polygon",
+    "polyline",
+    "circle"
+  ],
+  "author": {
+     "name": "Sandro Pibia",
+	 "email": "sandro.pibia@outlook.com"
+	 },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "leaflet": "^1.0.0"
+  }
+}
