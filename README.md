@@ -13,7 +13,7 @@ Supports Leaflet 1.0.0+ branches.
 This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
 
 ## Example
-<p>Here you can find an example </p>
+<p>Here you can find an example [SelectAreaFeature](https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html)</p>
 
 ## Usage
 
