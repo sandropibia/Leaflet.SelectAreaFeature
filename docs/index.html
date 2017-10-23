@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>Leaflet Tester</title>
+
+	<script src="./lib/js/jquery.js"></script>
+	
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+   integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+   crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+   integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+   crossorigin=""></script>
+	
+	<script src="./lib/js/Leaflet.SelectAreaFeature.js"></script>
+
+	<style type="text/css">
+    .btn {
+        background-color:orange;
+        cursor:pointer;
+    }
+    .btn2 {
+        background-color:lightblue;
+        cursor:pointer;
+    }
+    .btn3 {
+        background-color:lightgrey;
+        cursor:pointer;
+    }
+    .btn4 {
+        background-color:lightgrey;
+        cursor:pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<button id="enable-button" class="btn2">enable feature select</button>
+<button id="disable-button" class="btn">disable feature select</button>
+<button id="get-button" class="btn3">get features</button>
+<button id="delete-button" class="btn4">delete area(s)</button>
+<div id="map" style="width: 800px; height: 800px; float:left"></div>
+
+
+<script>
+	
+	var selectfeature;
+	
+	var bounds;
+
+
+ var a1 =   L.circle([50.708, -0.41], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	});
+ var a2 =   L.circle([50.608, -0.31], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	});
+ var a3 =   L.circle([50.508, -0.21], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	});
+var a4 =   L.circle([50.408, -0.61], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	});
+var a5 =   L.circle([50.308, -0.71], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	});		
+	
+var punten = L.layerGroup([a1,a2,a3,a4,a5])	;
+
+	
+	var map = L.map('map', { zoom: 11, center: [51.505, -0.09], layers: [punten] } );
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		//maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(map);
+
+	
+	var overlays = {
+		"Points of interest...": punten
+	};
+
+	L.control.layers(overlays).addTo(map);
+	
+	
+	L.marker([51.5, -0.09]).addTo(map)
+		.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
+
+
+	L.circle([51.508, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.308, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.208, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.108, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.008, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.908, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.808, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.708, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.608, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.508, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.408, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.308, -0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+        
+		
+	L.circle([51.508, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.308, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.208, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.108, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([51.008, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.908, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.808, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.708, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.608, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.508, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.408, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+    L.circle([50.308, 0.11], 500, {
+		color: 'red',
+		fillColor: '#f03',
+		fillOpacity: 0.5
+	}).addTo(map).bindPopup("I am a circle.");
+        
+
+	
+
+	
+	L.polygon([
+		[51.509, -0.08],
+		[51.503, -0.06],
+		[51.51, -0.047]
+	]).addTo(map).bindPopup("I am a polygon.");
+
+	L.polygon([
+		[51.809, -0.08],
+		[51.803, -0.06],
+		[51.71, -0.047],
+		[51.76, -0.067],
+		[51.81, -0.087]
+	]).addTo(map).bindPopup("I am a polygon.");
+
+    
+	L.rectangle([[51.603, -0.16],[51.61, -0.057]], {color: "#ff7800", weight: 1}).addTo(map);
+	
+	L.polyline([
+		[51.409, -0.08],
+		[51.403, -0.06],
+		[51.41, -0.047]
+	], {color: 'red'}).addTo(map);
+	
+	L.polyline([
+		[51.459, -0.08],
+		[51.453, -0.06],
+		[51.451, -0.047],
+		[51.481, -0.097],
+		[51.451, -0.1]
+	], {color: 'blue'}).addTo(map);
+
+	var popup = L.popup();
+
+	
+	// delete areas
+	$("#delete-button").click(function(){
+	  
+	  selectfeature.doRemoveAllSelection();
+	  //selectfeature.doRemoveLastSelection();
+	});
+
+	// disable selct areafeature
+	$("#disable-button").click(function(){
+	  
+	  selectfeature.disable(); 
+	  
+	});
+
+	// get the layers
+	$("#get-button").click(function(){
+	  //var xx = selectfeature.getFeaturesSelected( 'circle' );
+	  var xx = selectfeature.getFeaturesSelected( 'polygon' );
+	  //var xx = selectfeature.getFeaturesSelected( 'polyline' );
+	  //var xx = selectfeature.getFeaturesSelected( 'rectangle' );
+	  
+	  if ( xx.length != 0 ) {
+	    alert('change fill color of selected polygon');
+	    xx[0].setStyle({fillColor: 'green', fillOpacity: 1 });
+	  }	
+	});
+
+	// enalbe plugin
+	$("#enable-button").click(function(){
+	  //alert(' clicked the enabler ' );
+	  selectfeature = map.selectAreaFeature.enable();
+	  
+	  selectfeature.options.color = '#663399' ;
+	  selectfeature.options.weight = 3 ;
+	  //selectfeature.options.dashArray = '6 10 10 6' ;
+	  //alert(selectfeature.options.color);
+	});
+
+</script>
+
+
+</body>
+</html>

@@ -140,62 +140,59 @@
       
 	},
 	
-	getAreaLatLng: function() {
+	getBoundsAreaLatLon: function() {
 		return this._ARR_latlon;
 	},
 
-    removeAllArea: function() {
+    doRemoveAllSelection: function() {
 		var _i = 0;
 		while ( _i < this._area_pologon_layers.length  ) {
 		  this._map.removeLayer(this._area_pologon_layers[_i]);
+		  //delete this._area_pologon_layers[_i];
 		  _i++;
 		}
-		this._area_pologon_layers.splice( 0, _i );
+	    this._area_pologon_layers = [];
+
 	},
 	
-	removeLastArea: function() {
+	doRemoveLastSelection: function() {
 		var index = this._area_pologon_layers.length - 1;
 		this._map.removeLayer(this._area_pologon_layers[index]);
-		this._area_pologon_layers.splice(index, 1);
+		this._area_pologon_layers = [];
 	},
 	
 	getFeaturesSelected: function(layertype) {
 	   var layers_found = [];
        var pol;
-       var _i = 0;
-       
-	   while ( _i < this._area_pologon_layers.length  ) {
-	     pol = this._area_pologon_layers[_i].getBounds();
 	   
-	     this._map.eachLayer(function(layer){
-           if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
-		     if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }	 
-	       }
-           if ( (layertype == 'polyline' || layertype == 'all') && layer instanceof L.Polyline && !pol.equals(layer.getBounds()) ) {
-		     if (  pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
-		   }   
-           if ( (layertype == 'circle' || layertype == 'all') && layer instanceof L.Circle && !pol.equals(layer.getBounds()) ) {
-		     if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
-		   }   
-           if ( (layertype == 'rectangle' || layertype == 'all') && layer instanceof L.Rectangle && !pol.equals( layer.getBounds()) ) {
-	         if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
+	   var index = this._area_pologon_layers.length;
+	   pol = this._area_pologon_layers[index-1].getBounds();
+	   
+	   this._map.eachLayer(function(layer){
+         if (layertype == 'polygon' && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
+		   if ( pol.contains(layer.getBounds()) ) {
+            layers_found.push(layer);
+		   }	 
+	     }
+         else if (layertype == 'polyline' && layer instanceof L.Polyline && !pol.equals(layer.getBounds()) ) {
+		   if (  pol.contains(layer.getBounds()) ) {
+            layers_found.push(layer);
 		   }  
-           if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
-	         if ( pol.contains(layer.getLatLng()) ) {
-              layers_found.push(layer);
-		     }
+		 }   
+	   
+         else if (layertype == 'circle' && layer instanceof L.Circle && !pol.equals(layer.getBounds()) ) {
+		   if ( pol.contains(layer.getBounds()) ) {
+            layers_found.push(layer);
 		   }  
-         });
-	     _i++;
-	   }
+		 }   
+	   
+         else if (layertype == 'rectangle' && layer instanceof L.Rectangle && !pol.equals( layer.getBounds()) ) {
+	       if ( pol.contains(layer.getBounds()) ) {
+            layers_found.push(layer);
+		   }  
+		 }  
+       });
+	   
 	   if ( layers_found.length == 0  ){
 		   layers_found = null;
 	   }

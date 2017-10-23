@@ -29,26 +29,137 @@
         background-color:lightgrey;
         cursor:pointer;
     }
-    .btn4 {
-        background-color:lightgrey;
-        cursor:pointer;
-    }
 </style>
 
 </head>
 <body>
 
-<button id="enable-button" class="btn2">enable feature select</button>
-<button id="disable-button" class="btn">disable feature select</button>
-<button id="get-button" class="btn3">get features</button>
-<button id="delete-button" class="btn4">delete area(s)</button>
 <div id="map" style="width: 800px; height: 800px; float:left"></div>
+<div style="width: 200px; height: 290px; margin:15px; float:left">
+<button id="enable-button" class="btn2">enable</button>
+<button id="disable-button" class="btn">disable</button><br /><br />
+<button style="width: 200px" id="get-button-features-polygon" class="btn3">get polygon features</button>
+<button style="width: 200px" id="set-color" class="btn3">set fill color to selected polygons</button><br /><br />
+<button style="width: 200px" id="get-button-features" class="btn3">get all features</button>
+<button style="width: 200px" id="set-line-weight" class="btn3">set weight 4 if feature is a line</button><br /><br />
+<button style="width: 200px" id="get-button-latlng" class="btn3">get latlng of latest area drawn</button>
+<button style="width: 200px" id="show-button-latlng" class="btn3">show latlng of latest area drawn</button><br /><br />
+<button style="width: 200px" id="delete-button" class="btn3">delete last area drawn</button>
+<button style="width: 200px" id="delete-button-all" class="btn3">delete all area(s) drawn</button><br /><br />
+</div>
 
+<div style="width: 400px; height: 290px; margin: 15px; float:left">
+<h2>Demo for Leaflet.SelectAreaFeature</h2>
+<p>This demo show the functionality of the SelectAreaFeature plugin.<br /><br />
+The user can enable the plugin by pressing the button "enable". The map can not be dragged anymore.<br /></p>
+<p>After that the user can draw an area, by holding the left mouse button and start moving, on the map. More areas can be draw on the map at the same time. 
+Untill the user clicks on the "disable" button. 
+</p>
+</div>
+
+<div style="width: 850px; margin: 10px; float: left">
+The buttons represents the next methods from the plugin:
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;border-color:#999;}
+.tg td{font-family:Arial, sans-serif;font-size:12px;padding:3px 3px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#999;color:#444;background-color:#F7FDFA;}
+.tg th{font-family:Arial, sans-serif;font-size:12px;font-weight:normal;padding:10px 10px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#999;color:#fff;background-color:#26ADE4;}
+.tg .tg-yw4l{vertical-align:top}
+.tg .tg-6k2t{background-color:#D2E4FC;vertical-align:top}
+</style>
+<table class="tg">
+  <tr>
+    <th class="tg-yw4l">button</th>
+    <th class="tg-yw4l">plugin method</th>
+    <th class="tg-yw4l">description</th>
+  </tr>
+  <tr>
+    <td class="tg-6k2t">enable</td>
+    <td class="tg-6k2t"><pre style='color:#000020;background:#f6f8ff;'>selectfeature <span style='color:#308080; '>=</span> map<span style='color:#308080; '>.</span>selectAreaFeature<span style='color:#308080; '>.</span>enable<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+	  selectfeature<span style='color:#308080; '>.</span>options<span style='color:#308080; '>.</span>color <span style='color:#308080; '>=</span> <span style='color:#800000; '>'</span><span style='color:#1060b6; '>#663399</span><span style='color:#800000; '>'</span> <span style='color:#406080; '>;</span>
+	  selectfeature<span style='color:#308080; '>.</span>options<span style='color:#308080; '>.</span>weight <span style='color:#308080; '>=</span> <span style='color:#008c00; '>3</span> <span style='color:#406080; '>;</span>
+</pre>
+</td>
+    <td class="tg-6k2t">activate the plugin</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">disable</td>
+    <td class="tg-yw4l"><pre style='color:#000020;background:#f6f8ff;'>selectfeature<span style='color:#308080; '>.</span>disable<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-yw4l">deactivates the plugin</td>
+  </tr>
+  <tr>
+    <td class="tg-6k2t">get polygons features</td>
+    <td class="tg-6k2t"><pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>var</span> selected_features <span style='color:#308080; '>=</span> selectfeature<span style='color:#308080; '>.</span>getFeaturesSelected<span style='color:#308080; '>(</span> <span style='color:#800000; '>'</span><span style='color:#1060b6; '>polygon</span><span style='color:#800000; '>'</span> <span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-6k2t">selects all polygons/rectangles that are in the Bounds of the area(s) into an array</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">set fill color to selected polygons</td>
+    <td class="tg-yw4l">## no methods from plugin<br />
+<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>if</span> <span style='color:#308080; '>(</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span> <span style='color:#308080; '>!=</span> <span style='color:#008c00; '>0</span> <span style='color:#308080; '>&amp;&amp;</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span> <span style='color:#308080; '>>=</span> <span style='color:#008c00; '>1</span> <span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
+	    <span style='color:#200080; font-weight:bold; '>alert</span><span style='color:#308080; '>(</span><span style='color:#800000; '>'</span><span style='color:#1060b6; '>change fill color of selected polygon</span><span style='color:#800000; '>'</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+		<span style='color:#200080; font-weight:bold; '>for</span> <span style='color:#308080; '>(</span>i<span style='color:#308080; '>=</span><span style='color:#008c00; '>0</span><span style='color:#406080; '>;</span> i <span style='color:#308080; '>&lt;</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span><span style='color:#406080; '>;</span> i<span style='color:#308080; '>++</span> <span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
+	      selected_features<span style='color:#308080; '>[</span>i<span style='color:#308080; '>]</span><span style='color:#308080; '>.</span>setStyle<span style='color:#308080; '>(</span><span style='color:#406080; '>{</span>fillColor<span style='color:#406080; '>:</span> <span style='color:#800000; '>'</span><span style='color:#1060b6; '>green</span><span style='color:#800000; '>'</span><span style='color:#308080; '>,</span> fillOpacity<span style='color:#406080; '>:</span> <span style='color:#008c00; '>1</span> <span style='color:#406080; '>}</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span><span style='color:#406080; '>}</span>
+</pre>	
+	</td>
+    <td class="tg-yw4l">once you have access to the array of features you can manapulate the features  </td>
+  </tr>
+  <tr>
+    <td class="tg-6k2t">get all features</td>
+    <td class="tg-6k2t"><pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>var</span> selected_features <span style='color:#308080; '>=</span> selectfeature<span style='color:#308080; '>.</span>getFeaturesSelected<span style='color:#308080; '>(</span> <span style='color:#800000; '>'</span><span style='color:#1060b6; '>all</span><span style='color:#800000; '>'</span> <span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-6k2t">puts all the features into an array that are in the Bounds of the area(s) </td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">set weigt 4 if feature is a line</td>
+    <td class="tg-yw4l">## no methods from plugin<br />
+	<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>if</span> <span style='color:#308080; '>(</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span> <span style='color:#308080; '>!=</span> <span style='color:#008c00; '>0</span> <span style='color:#308080; '>&amp;&amp;</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span> <span style='color:#308080; '>>=</span> <span style='color:#008c00; '>1</span>  <span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
+	    <span style='color:#200080; font-weight:bold; '>alert</span><span style='color:#308080; '>(</span><span style='color:#800000; '>'</span><span style='color:#1060b6; '>change weight of selected polylines</span><span style='color:#800000; '>'</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+		<span style='color:#200080; font-weight:bold; '>for</span> <span style='color:#308080; '>(</span>i<span style='color:#308080; '>=</span><span style='color:#008c00; '>0</span><span style='color:#406080; '>;</span> i <span style='color:#308080; '>&lt;</span> selected_features<span style='color:#308080; '>.</span><span style='color:#200080; font-weight:bold; '>length</span><span style='color:#406080; '>;</span> i<span style='color:#308080; '>++</span> <span style='color:#308080; '>)</span> <span style='color:#406080; '>{</span>
+		  <span style='color:#200080; font-weight:bold; '>if</span> <span style='color:#308080; '>(</span>  selected_features<span style='color:#308080; '>[</span>i<span style='color:#308080; '>]</span> <span style='color:#200080; font-weight:bold; '>instanceof</span> L<span style='color:#308080; '>.</span>Polyline <span style='color:#308080; '>)</span><span style='color:#406080; '>{</span>
+	        selected_features<span style='color:#308080; '>[</span>i<span style='color:#308080; '>]</span><span style='color:#308080; '>.</span>setStyle<span style='color:#308080; '>(</span><span style='color:#406080; '>{</span> weight<span style='color:#406080; '>:</span> <span style='color:#008c00; '>4</span> <span style='color:#406080; '>}</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+		  <span style='color:#406080; '>}</span>	
+		<span style='color:#406080; '>}</span>  
+	  <span style='color:#406080; '>}</span>
+</pre>	
+	</td>
+    <td class="tg-yw4l">loops through the array of features and if it is a line set the weight to 4</td>
+  </tr>
+  <tr>
+    <td class="tg-6k2t">get latlng of latest area drawn</td>
+    <td class="tg-6k2t"><pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>var</span> latlng_area <span style='color:#308080; '>=</span> selectfeature<span style='color:#308080; '>.</span>getAreaLatLng<span style='color:#308080; '>(</span> <span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-6k2t">get the LatLng pairs of the last area drawn</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">show latlng of latest area drawn</td>
+    <td class="tg-yw4l">## no methods from plugin<br />
+	<pre style='color:#000020;background:#f6f8ff;'><span style='color:#200080; font-weight:bold; '>alert</span><span style='color:#308080; '>(</span>latlng_area<span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre>
+	</td>
+    <td class="tg-yw4l">show an alert with the LatLngs of the area</td>
+  </tr>
+  <tr>
+    <td class="tg-6k2t">delete last area drawn</td>
+    <td class="tg-6k2t"><pre style='color:#000020;background:#f6f8ff;'>selectfeature<span style='color:#308080; '>.</span>removeLastArea<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-6k2t">deletes the area on the map</td>
+  </tr>
+  <tr>
+    <td class="tg-yw4l">delete all area(s) drawn</td>
+    <td class="tg-yw4l"><pre style='color:#000020;background:#f6f8ff;'>selectfeature<span style='color:#308080; '>.</span>removeAllArea<span style='color:#308080; '>(</span><span style='color:#308080; '>)</span><span style='color:#406080; '>;</span>
+</pre></td>
+    <td class="tg-yw4l">removes all areas from the map</td>
+  </tr>
+</table>
+
+</div>
 
 <script>
 	
 	var selectfeature;
-	
+    var selected_features;	
+	var latlng_area = [];
 	var bounds;
 
 
@@ -251,7 +362,7 @@ var punten = L.layerGroup([a1,a2,a3,a4,a5])	;
 		[51.409, -0.08],
 		[51.403, -0.06],
 		[51.41, -0.047]
-	], {color: 'red'}).addTo(map);
+	], {color: 'red', weight: 1.5}).addTo(map);
 	
 	L.polyline([
 		[51.459, -0.08],
@@ -259,47 +370,78 @@ var punten = L.layerGroup([a1,a2,a3,a4,a5])	;
 		[51.451, -0.047],
 		[51.481, -0.097],
 		[51.451, -0.1]
-	], {color: 'blue'}).addTo(map);
+	], {color: 'blue', weight : 1.5 }).addTo(map);
 
 	var popup = L.popup();
 
 	
 	// delete areas
 	$("#delete-button").click(function(){
-	  
-	  selectfeature.doRemoveAllSelection();
-	  //selectfeature.doRemoveLastSelection();
+	  selectfeature.removeLastArea();
+	});
+	$("#delete-button-all").click(function(){
+	  selectfeature.removeAllArea();
 	});
 
-	// disable selct areafeature
+	// disable select areafeature
 	$("#disable-button").click(function(){
-	  
 	  selectfeature.disable(); 
-	  
 	});
 
-	// get the layers
-	$("#get-button").click(function(){
-	  //var xx = selectfeature.getFeaturesSelected( 'circle' );
-	  var xx = selectfeature.getFeaturesSelected( 'polygon' );
-	  //var xx = selectfeature.getFeaturesSelected( 'polyline' );
-	  //var xx = selectfeature.getFeaturesSelected( 'rectangle' );
-	  
-	  if ( xx.length != 0 ) {
+	// get the layers of type polygon
+	$("#get-button-features-polygon").click(function(){
+	  //selected_features = selectfeature.getFeaturesSelected( 'circle' );
+	  selected_features = selectfeature.getFeaturesSelected( 'polygon' );
+	  //selected_features = selectfeature.getFeaturesSelected( 'polyline' );
+	  //selected_features = selectfeature.getFeaturesSelected( 'rectangle' );
+	  //selected_features = selectfeature.getFeaturesSelected( 'marker' );
+	 });
+
+     // set colors for the selected polygon features
+	 $("#set-color").click(function(){
+	  if ( selected_features.length != 0 && selected_features.length >= 1 ) {
 	    alert('change fill color of selected polygon');
-	    xx[0].setStyle({fillColor: 'green', fillOpacity: 1 });
+		for (i=0; i < selected_features.length; i++ ) {
+	      selected_features[i].setStyle({fillColor: 'green', fillOpacity: 1 });
+		  //selected_features[i].setOpacity( 0.4 );
+		  //selected_features[i].setStyle({ weight: 4 });
+		}  
 	  }	
 	});
+    
+	//getlatlng of area
+	$("#get-button-latlng").click(function(){
+	  latlng_area = selectfeature.getAreaLatLng( );
+	 });
+	//showlatlng of area
+	$("#show-button-latlng").click(function(){
+	  alert(latlng_area);
+	 });
 
+	 
+	// get the layers
+	$("#get-button-features").click(function(){
+	  selected_features = selectfeature.getFeaturesSelected( 'all' );
+	 });
+
+	 // set the weight of the selected features if it is a lline
+	 $("#set-line-weight").click(function(){
+	  if ( selected_features.length != 0 && selected_features.length >= 1  ) {
+	    alert('change weight of selected polylines');
+		for (i=0; i < selected_features.length; i++ ) {
+		  if (  selected_features[i] instanceof L.Polyline && !(selected_features[i] instanceof L.Polygon) && !(selected_features[i] instanceof L.Rectangle ) ){
+	        selected_features[i].setStyle({ weight: 4 });
+		  }	
+		}  
+	  }	
+	});
+	
 	// enalbe plugin
 	$("#enable-button").click(function(){
-	  //alert(' clicked the enabler ' );
 	  selectfeature = map.selectAreaFeature.enable();
 	  
 	  selectfeature.options.color = '#663399' ;
 	  selectfeature.options.weight = 3 ;
-	  //selectfeature.options.dashArray = '6 10 10 6' ;
-	  //alert(selectfeature.options.color);
 	});
 
 </script>
