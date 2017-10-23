@@ -21,7 +21,8 @@ This plugin let the user draw an area, once it is activated, on the map by holdi
 * customisable
 
 ## Example
-<p>Here you can find a [demo](https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html) showing the features of the plugin.</p>
+<p>Here you can find a [demo](https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html)
+</p>
 
 ## Usage
 
@@ -64,6 +65,9 @@ The following options are available with SelectAreaFeature (showing you here wit
 | getAreaLatLng                   |                   |           | Array of latlng      | Gets al the latlng of the latest drawn area on the map|
 | removeAllArea                   |                   |           |                      | Removes all the drawn area from the map       |
 | removeLastArea                  |                   |           |                      | Remove the latest drawn area from the map     |
-| getFeaturesSelected             | <i>layertype</i> String| Yes       | Array of layers selected of <layertype>| <layertype> is one of the following values: 'polyline', 'polygon',  |
+| getFeaturesSelected(<i>layertype<i>)| <i>layertype</i> String| Yes       | Array of layers selected of <layertype>| <i>layertype</> is one of the following values: 'polyline', 'polygon', 'rectangle', ' marker', 'circle' |
+  
+## License
+<p>Leaflet.SelectAreaFeature is free software, and may be redistributed under the GPL-3.0 license.</p>
 </body>
 </html>
