@@ -51,15 +51,9 @@ The following options are available with SelectFeature (showing you here with th
 
 | Property      | Description                             | Default value | Example                |
 |---------------|-----------------------------------------|---------------|----------------------- |
-| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|
+| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|```javascript selectfeature.options.color = '#663399' ;```
+| weight| The weight of the line | 2 |```javascript selectfeature.options.weight = 1 ;``` | 
 
-
-
-You may modify the options once the plugin is enabled, for example;
-```javascript
-  selectfeature.options.color = '#663399' ;
-  selectfeature.options.weight = 1 ;
-```
 
 ### Methods
 <p>The following methods are supported by the plugin:</p>
