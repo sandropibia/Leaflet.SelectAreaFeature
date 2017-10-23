@@ -53,18 +53,13 @@ The following options are available with SelectAreaFeature (showing you here wit
 |---------------|-----------------------------------------|---------------|----------------------- |
 | color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|```selectfeature.options.color = '#663399' ;```|
 | weight | The weight of the line | 2 |```selectfeature.options.weight = 1 ;``` | 
-| dashArray | Sets  | '5, 5, 1, 5' | |
+| dashArray | Sets or read the stroke dash pattern of the line  | '5, 5, 1, 5' |```selectfeature.options.dasArray = '2, 2, 4, 2' ;``` |
 
 
 ### Methods
 <p>The following methods are supported by the plugin:</p>
-<ul>
-<li><strong>getBoundsAreaLatLon</strong></li> gets all LatLngs for the area that was last drawn on the map
-<li><strong>doRemoveAllSelection</strong></li> removes all area's drawn on the map
-<li><strong>doRemoveLastSelection</strong></li> removes the las area drawn on the map
-<li><strong>getFeaturesSelected('layertype')</strong></li> returns an array of the layers wich are in the bounding box of the area drawn
-layertype can be: 'polygon'/'polyline'/'circle'/'rectangle' 
-</ul>
-
+| Method                          | Input parameter | Mandatory   | Returns  | Description                                   |
+|---------------------------------|-----------------|-------------|----------|-----------------------------------------------|
+|
 </body>
 </html>
