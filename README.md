@@ -58,7 +58,7 @@ The following methods are supported by the plugin:
 | getAreaLatLng                   |                   |           | Array of latlng      | Gets al the latlng of the latest drawn area on the map|
 | removeAllArea                   |                   |           |                      | Removes all the drawn area from the map       |
 | removeLastArea                  |                   |           |                      | Remove the latest drawn area from the map     |
-| getFeaturesSelected(<i>layertype<i>)| <i>layertype</i> String| Yes       | Array of layers selected of <layertype>| <i>layertype</i> is one of the following values: 'polyline', 'polygon', 'rectangle', ' marker', 'circle' |
+| getFeaturesSelected(<i>layertype<i>)| <i>layertype</i> String| Yes       | Array of layers selected of <layertype>| <i>layertype</i> is one of the following values: 'polyline', 'polygon', 'rectangle', ' marker', 'circle' or 'all' |
   
 ## License
 Leaflet.SelectAreaFeature is free software, and may be redistributed under the GPL-3.0 license.
