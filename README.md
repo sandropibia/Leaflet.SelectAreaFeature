@@ -47,12 +47,13 @@ selectfeature.disable();
 Than the mouse events for drawing stop working with the map.
 
 ### Options
-The following options are available with SelectFeature (showing you here with the default settings):
+The following options are available with SelectAreaFeature (showing you here with the default settings):
 
 | Property      | Description                             | Default value | Example                |
 |---------------|-----------------------------------------|---------------|----------------------- |
-| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|```javascript selectfeature.options.color = '#663399' ;```
-| weight| The weight of the line | 2 |```javascript selectfeature.options.weight = 1 ;``` | 
+| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|```selectfeature.options.color = '#663399' ;```|
+| weight | The weight of the line | 2 |```selectfeature.options.weight = 1 ;``` | 
+| dashArray | Sets  | '5, 5, 1, 5' | |
 
 
 ### Methods
