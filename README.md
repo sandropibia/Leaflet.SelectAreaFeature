@@ -64,6 +64,6 @@ The following options are available with SelectAreaFeature (showing you here wit
 | getAreaLatLng                   |                   |           | Array of latlng      | Gets al the latlng of the latest drawn area on the map|
 | removeAllArea                   |                   |           |                      | Removes all the drawn area from the map       |
 | removeLastArea                  |                   |           |                      | Remove the latest drawn area from the map     |
-| getFeaturesSelected             | <layertype> String| Yes       | Array of layers selected of <layertype>| <layertype> is one of the following values: 'polyline', 'polygon',  |
+| getFeaturesSelected             | <<layertype>> String| Yes       | Array of layers selected of <layertype>| <layertype> is one of the following values: 'polyline', 'polygon',  |
 </body>
 </html>
