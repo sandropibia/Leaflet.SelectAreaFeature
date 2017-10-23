@@ -400,7 +400,6 @@ var punten = L.layerGroup([a1,a2,a3,a4,a5])	;
      // set colors for the selected polygon features
 	 $("#set-color").click(function(){
 	  if ( selected_features.length != 0 && selected_features.length >= 1 ) {
-	    alert('change fill color of selected polygon');
 		for (i=0; i < selected_features.length; i++ ) {
 	      selected_features[i].setStyle({fillColor: 'green', fillOpacity: 1 });
 		  //selected_features[i].setOpacity( 0.4 );
@@ -427,7 +426,6 @@ var punten = L.layerGroup([a1,a2,a3,a4,a5])	;
 	 // set the weight of the selected features if it is a lline
 	 $("#set-line-weight").click(function(){
 	  if ( selected_features.length != 0 && selected_features.length >= 1  ) {
-	    alert('change weight of selected polylines');
 		for (i=0; i < selected_features.length; i++ ) {
 		  if (  selected_features[i] instanceof L.Polyline && !(selected_features[i] instanceof L.Polygon) && !(selected_features[i] instanceof L.Rectangle ) ){
 	        selected_features[i].setStyle({ weight: 4 });
