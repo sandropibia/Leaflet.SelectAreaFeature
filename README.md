@@ -21,7 +21,7 @@ This plugin let the user draw an area, once it is activated, on the map by holdi
 * customisable
 
 ## Example
-<p>Here you can find an example https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html showing the features of the plugin.</p>
+<p>Here you can find a [demo]( https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html) showing the features of the plugin.</p>
 
 ## Usage
 
