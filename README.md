@@ -25,9 +25,9 @@ This plugin let the user draw an area, once it is activated, on the map by holdi
 
 ## Usage
 
-Include Leaflet.SelectFeature in your JavaScript project using `npm install leaflet-selectareafeature`.
+Include Leaflet.SelectAreaFeature in your JavaScript project using `npm install leaflet-selectareafeature`.
 
-You can then include Leaflet.SelectFeature in your web application by adding the following HTML tags (paths below are relative to your project's root):
+You can then include Leaflet.SelectAreaFeature in your web application by adding the following HTML tags (paths below are relative to your project's root):
 
 ```
 <script src="./lib/js/Leaflet.SelectAreaFeature.js"></script>
@@ -48,6 +48,10 @@ Than the mouse events for drawing stop working with the map.
 
 ### Options
 The following options are available with SelectFeature (showing you here with the default settings):
+
+| Property      | Description                             | Default value | Example                |
+|---------------|-----------------------------------------|---------------|----------------------- |
+| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|
 
 
 
