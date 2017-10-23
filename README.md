@@ -51,15 +51,18 @@ The following options are available with SelectAreaFeature (showing you here wit
 
 | Property      | Description                             | Default value | Example                |
 |---------------|-----------------------------------------|---------------|----------------------- |
-| color         | The color of the line when drawing. For example 'blue' , ' #333333'| 'green'|```selectfeature.options.color = '#663399' ;```|
+| color         | The color of the line when drawing. For example 'blue' , '#333333'| 'green'|```selectfeature.options.color = '#663399' ;```|
 | weight | The weight of the line | 2 |```selectfeature.options.weight = 1 ;``` | 
 | dashArray | Sets or read the stroke dash pattern of the line  | '5, 5, 1, 5' |```selectfeature.options.dasArray = '2, 2, 4, 2' ;``` |
 
 
 ### Methods
 <p>The following methods are supported by the plugin:</p>
-| Method                          | Input parameter | Mandatory   | Returns  | Description                                   |
-|---------------------------------|-----------------|-------------|----------|-----------------------------------------------|
-|
+| Method                          | Input parameter | Mandatory | Returns              | Description                                   |
+|---------------------------------|-----------------|-----------|----------------------|-----------------------------------------------|
+| getAreaLatLng                   |    |   | Array of latlng | Gets al the latlng of the latest drawn area on the map|
+| removeAllArea                   |    |   |   | Removes all the drawn area from the map|
+| removeLastArea                  |    |   |   | Remove the latest drawn area from the map|
+| getFeaturesSelected             | <layertype> String| Y | Array of layers selected of <layertype>| <layertype> is one of the following values: ' |
 </body>
 </html>
