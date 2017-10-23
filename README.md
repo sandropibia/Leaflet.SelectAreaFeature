@@ -8,12 +8,20 @@
 # Leaflet.SelectAreaFeature
 Plugin that selects feature(s) by drawing an area on the map.
 
-Supports Leaflet 1.0.0+ branches.
+Supports Leaflet 1.0.0+ branches, tested with 1.2.0.
 
-This plugin let the user draw an area on the map. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manupulate them separately.
+This plugin let the user draw an area, once it is activated, on the map by holding the left mouse button on moving it. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manipulate them separately.
+
+## Features
+* easy enable it
+* easy disable it
+* draw an area around the objects
+* get instance(s) of all selected objects or only instances of polygon(s), polyline(s), marker(s), rectangle(s) and circle(s) 
+* manipulate slected features 
+* customisable
 
 ## Example
-<p>Here you can find an example https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html </p>
+<p>Here you can find an example https://sandropibia.github.io/Leaflet.SelectAreaFeature/examples/index.html showing the features of the plugin.</p>
 
 ## Usage
 
@@ -41,15 +49,7 @@ Than the mouse events for drawing stop working with the map.
 ### Options
 The following options are available with SelectFeature (showing you here with the default settings):
 
-<dl>
-  <dt>options{</dt>
-    <dd>color : "green",</dd>
-    <dd>weight : 2,</dd>
-    <dd>dashArray : ' 5, 5, 1, 5',</dd>
-    <dd>selCursor : 'crosshair',</dd>
-    <dd>normCursor: ''</dd>
-  <dt>}</dt>
-</dl>  
+
 
 You may modify the options once the plugin is enabled, for example;
 ```javascript
