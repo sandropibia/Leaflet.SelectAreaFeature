@@ -193,6 +193,11 @@
               layers_found.push(layer);
 		     }
 		   }  
+           if ( (layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.circleMarker  ) {
+	         if ( pol.contains(layer.getLatLng()) ) {
+              layers_found.push(layer);
+		     }
+		   }  
          });
 	     _i++;
 	   }
