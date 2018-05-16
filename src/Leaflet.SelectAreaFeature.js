@@ -60,7 +60,10 @@
     },
 
     _doMouseUp: function(ev) {
-
+	  if (this._ARR_latlon.length < 1) {
+		this._map.off('mousemove');
+		return;
+	  }  
   	  this._pre_latlon = '';
 	  this._post_latlon = '';
 	  this._ARR_latlon_line = [];
