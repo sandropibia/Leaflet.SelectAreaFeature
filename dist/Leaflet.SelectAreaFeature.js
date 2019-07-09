@@ -150,6 +150,7 @@
 		  this._map.removeLayer(this._area_pologon_layers[_i]);
 		  _i++;
 		}
+		this._ARR_latlon = [];
 		this._area_pologon_layers.splice( 0, _i );
 	},
 	
