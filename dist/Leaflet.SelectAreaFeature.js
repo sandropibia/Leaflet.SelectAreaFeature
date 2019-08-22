@@ -68,7 +68,7 @@
 	  
 	  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
 
-	  this._ARR_ALL_latlons.push(...this._ARR_latlon);
+	  this._ARR_ALL_latlons.push(this._ARR_latlon);
 
 
 	  if ( this._map.hasLayer(this._area_line) ){
@@ -144,6 +144,7 @@
       
 	},
 	getAllAreaLatLng: function(){
+		console.log(this._ARR_ALL_latlons);
 		return this._ARR_ALL_latlons;
 	},
 	
@@ -159,6 +160,7 @@
 		  _i++;
 		}
 		this._ARR_latlon = [];
+		this._ARR_ALL_latlons = [];
 		this._area_pologon_layers.splice( 0, _i );
 		console.log("reset all area");
 	},
