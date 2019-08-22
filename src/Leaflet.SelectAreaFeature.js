@@ -31,6 +31,7 @@
 		this._post_latlon = '';
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
+		this._ARR_ALL_latlons = [];
 		
 		this._area_pologon_layers = [];
 		
@@ -66,6 +67,9 @@
 	  this._ARR_latlon_line = [];
 	  
 	  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
+
+	  this._ARR_ALL_latlons.push(...this._ARR_latlon);
+
 
 	  if ( this._map.hasLayer(this._area_line) ){
 		this._map.removeLayer(this._area_line);  
@@ -139,6 +143,9 @@
 	  }	  
       
 	},
+	getAllAreaLatLng: function(){
+		return this._ARR_ALL_latlons;
+	},
 	
 	getAreaLatLng: function() {
 		return this._ARR_latlon;
@@ -146,11 +153,14 @@
 
     removeAllArea: function() {
 		var _i = 0;
+		console.log(this._area_pologon_layers);	
 		while ( _i < this._area_pologon_layers.length  ) {
 		  this._map.removeLayer(this._area_pologon_layers[_i]);
 		  _i++;
 		}
+		this._ARR_latlon = [];
 		this._area_pologon_layers.splice( 0, _i );
+		console.log("reset all area");
 	},
 	
 	removeLastArea: function() {
@@ -213,3 +223,4 @@
 }, window));
 
 L.Map.addInitHook('addHandler', 'selectAreaFeature', L.SelectAreaFeature);
+
