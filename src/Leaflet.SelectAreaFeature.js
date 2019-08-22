@@ -144,7 +144,6 @@
       
 	},
 	getAllAreaLatLng: function(){
-		console.log(this._ARR_ALL_latlons);
 		return this._ARR_ALL_latlons;
 	},
 	
