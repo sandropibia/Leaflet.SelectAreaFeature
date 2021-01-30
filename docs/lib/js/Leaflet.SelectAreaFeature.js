@@ -31,7 +31,7 @@
 		this._post_latlon = '';
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
-		
+		this._flag_new_shape = false;
 		this._area_pologon_layers = [];
 		
 		this._area_line = '';
@@ -59,27 +59,35 @@
 		this._map.dragging.enable();
     },
 
+	onDrawEnd: null,
+
     _doMouseUp: function(ev) {
 
   	  this._pre_latlon = '';
 	  this._post_latlon = '';
 	  this._ARR_latlon_line = [];
-	  
-	  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
+	  if (this._flag_new_shape) {
+		  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
 
-	  if ( this._map.hasLayer(this._area_line) ){
-		this._map.removeLayer(this._area_line);  
-	  }
-	  if ( this._map.hasLayer(this._area_line_new) ){
-		this._map.removeLayer(this._area_line_new);  
+		  if ( this._map.hasLayer(this._area_line) ){
+			this._map.removeLayer(this._area_line);  
+		  }
+		  if ( this._map.hasLayer(this._area_line_new) ){
+			this._map.removeLayer(this._area_line_new);  
+		  }
+		  this._flag_new_shape = false;
 	  }
 	  this._map.off('mousemove');
-
+      if (this.onDrawEnd) this.onDrawEnd();
 	},
 
+	onDrawStart: null,
+
 	_doMouseDown: function(ev) {
+	  if (this.onDrawStart) this.onDrawStart();
 
 	  this._ARR_latlon = [];
+	  this._flag_new_shape = true;
 	  this._area_pologon = '';
 	  this._area_line_new = '';
 	  this._area_line = '';
@@ -161,11 +169,14 @@
 	
 	getFeaturesSelected: function(layertype) {
 	   var layers_found = [];
-       var pol;
-       var _i = 0;
+	   var pol;
+	   var polLayer;
+	   var _i = 0;
+	   var insideChecker = this.isMarkerInsidePolygon;
        
 	   while ( _i < this._area_pologon_layers.length  ) {
-	     pol = this._area_pologon_layers[_i].getBounds();
+		polLayer = this._area_pologon_layers[_i];
+		pol = polLayer.getBounds();
 	   
 	     this._map.eachLayer(function(layer){
            if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
@@ -189,24 +200,53 @@
 		     }  
 		   }  
            if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
-	         if ( pol.contains(layer.getLatLng()) ) {
-              layers_found.push(layer);
-		     }
-		   }  
-           if ( (layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.CircleMarker  ) {
-	         if ( pol.contains(layer.getLatLng()) ) {
-              layers_found.push(layer);
-		     }
-		   }  
-         });
-	     _i++;
-	   }
+			if (pol.contains(layer.getLatLng()) && insideChecker(layer, polLayer)) {
+		   layers_found.push(layer);
+		  }
+		}  
+		if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
+			var child = layer.getAllChildMarkers();
+			if (child) {
+				_.forEach(child, function (m) {
+					if (pol.contains(m.getLatLng()) && insideChecker(m, polLayer)) {
+						layers_found.push(m);
+					}
+				});
+			}
+		}  
+
+		  //getAllChildMarkers
+
+		if ((layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.CircleMarker) {
+		  if ( pol.contains(layer.getLatLng()) ) {
+		   layers_found.push(layer);
+		  }
+		}  
+	  });
+	  _i++;
+	}
 	   if ( layers_found.length == 0  ){
 		   layers_found = null;
 	   }
 		   
 	   return layers_found;
-	}
+	},
+
+	isMarkerInsidePolygon: function (marker, poly) {
+        var polyPoints = poly.getLatLngs()[0];
+        var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
+
+        var inside = false;
+        for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+            var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+            var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+        return inside;
+    }
 	
 	});
 	
