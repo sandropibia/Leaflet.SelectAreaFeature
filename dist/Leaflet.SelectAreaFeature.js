@@ -31,7 +31,7 @@
 		this._post_latlon = '';
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
-		
+		this._flag_new_shape = false;
 		this._area_pologon_layers = [];
 		
 		this._area_line = '';
@@ -64,14 +64,16 @@
   	  this._pre_latlon = '';
 	  this._post_latlon = '';
 	  this._ARR_latlon_line = [];
-	  
-	  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
+	  if (this._flag_new_shape) {
+		  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
 
-	  if ( this._map.hasLayer(this._area_line) ){
-		this._map.removeLayer(this._area_line);  
-	  }
-	  if ( this._map.hasLayer(this._area_line_new) ){
-		this._map.removeLayer(this._area_line_new);  
+		  if ( this._map.hasLayer(this._area_line) ){
+			this._map.removeLayer(this._area_line);  
+		  }
+		  if ( this._map.hasLayer(this._area_line_new) ){
+			this._map.removeLayer(this._area_line_new);  
+		  }
+		  this._flag_new_shape = false;
 	  }
 	  this._map.off('mousemove');
 
@@ -80,6 +82,7 @@
 	_doMouseDown: function(ev) {
 
 	  this._ARR_latlon = [];
+	  this._flag_new_shape = true;
 	  this._area_pologon = '';
 	  this._area_line_new = '';
 	  this._area_line = '';
