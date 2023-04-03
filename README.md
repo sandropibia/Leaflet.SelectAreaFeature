@@ -37,6 +37,7 @@ After the plugin is enabled the user can draw an area by holding the left mouse 
 ```javascript
 selectfeature.disable();
 ```
+![selectareafeature](https://user-images.githubusercontent.com/30185440/229522748-0f3a8be2-21b1-4a7d-a1e5-5a7a4f1e77a2.PNG)
 
 Than the mouse events for drawing stop working with the map.
 
