@@ -5,6 +5,8 @@ Supports Leaflet 1.0.0+ branches, tested with 1.2.0.
 
 This plugin let the user draw an area, once it is activated, on the map by holding the left mouse button and moving it. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manipulate them separately.
 
+![selectareafeature](https://user-images.githubusercontent.com/30185440/229522748-0f3a8be2-21b1-4a7d-a1e5-5a7a4f1e77a2.PNG)
+
 ## Features
 * easy enable it
 * easy disable it
@@ -37,7 +39,6 @@ After the plugin is enabled the user can draw an area by holding the left mouse 
 ```javascript
 selectfeature.disable();
 ```
-![selectareafeature](https://user-images.githubusercontent.com/30185440/229522748-0f3a8be2-21b1-4a7d-a1e5-5a7a4f1e77a2.PNG)
 
 Than the mouse events for drawing stop working with the map.
 
