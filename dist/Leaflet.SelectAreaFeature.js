@@ -27,15 +27,18 @@
     initialize: function (map, options) {
 	    this._map = map;
 		
-		this._pre_latlon = '';
-		this._post_latlon = '';
+		this._pre_latlon = null;
+		this._post_latlon = null;
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
 		this._flag_new_shape = false;
 		this._area_pologon_layers = [];
 		
-		this._area_line = '';
-		this._area_line_new = '';
+		this._area_line = null;
+		this._area_line_new = null;
+
+		// define a variable to hold the drawn polygon
+        this._drawnPolygon = null;
 		
 		L.setOptions(this, options);
     },
@@ -62,23 +65,21 @@
 	onDrawEnd: null,
 
     _doMouseUp: function(ev) {
-
-  	  this._pre_latlon = '';
-	  this._post_latlon = '';
+  	  this._pre_latlon = null;
+	  this._post_latlon = null;
 	  this._ARR_latlon_line = [];
 	  if (this._flag_new_shape) {
 		  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
 
-		  if ( this._map.hasLayer(this._area_line) ){
-			this._map.removeLayer(this._area_line);  
+		  // if a polygon is already drawn, remove it
+		  if (this._drawnPolygon) {
+			map.removeLayer(this._drawnPolygon);
 		  }
-		  if ( this._map.hasLayer(this._area_line_new) ){
-			this._map.removeLayer(this._area_line_new);  
-		  }
+
 		  this._flag_new_shape = false;
-	  }
-	  this._map.off('mousemove');
-      if (this.onDrawEnd) this.onDrawEnd();
+		  this._map.off('mousemove');
+		  if (this.onDrawEnd) this.onDrawEnd();
+		}
 	},
 
 	onDrawStart: null,
@@ -88,64 +89,32 @@
 
 	  this._ARR_latlon = [];
 	  this._flag_new_shape = true;
-	  this._area_pologon = '';
-	  this._area_line_new = '';
-	  this._area_line = '';
+	  this._area_pologon = null;
+	  this._area_line_new = null;
+	  this._area_line = null;
+
+      // if a polygon is already drawn, remove it
+      if (this._drawnPolygon) {
+        map.removeLayer(this._drawnPolygon);
+      }
+
+      // create a new polygon
+	  this._drawnPolygon = L.polygon([ev.latlng], {
+		color: this.options.color, 
+		weight: this.options.weight, 
+		dashArray: this.options.dashArray,
+		fillOpacity: 0.2
+	  }).addTo(this._map);
 	  
 	  this._map.on('mousemove', this._doMouseMove, this );
     },
-	
-	_doMouseMove: function(ev) {
 
+	_doMouseMove: function(ev) {
+	  // push latlon to area to make a polygon to later stadium
 	  this._ARR_latlon.push(ev.latlng);
-	  if (this._pre_latlon == '' || this._pre_latlon == "undefined") {
-		this._pre_latlon = ev.latlng;
-		this._ARR_latlon_line.push(this._pre_latlon);
-	  }
-	  else if ( this._pre_latlon != '' && ( this._post_latlon == '' || this._post_latlon == "undefined") ) {
-		this._post_latlon = ev.latlng;
-		this._ARR_latlon_line.push(this._post_latlon);
-	  }
-	  else {
-		this._pre_latlon = this._post_latlon;
-		this._post_latlon = ev.latlng;
-		this._ARR_latlon_line.push(this._pre_latlon);
-		this._ARR_latlon_line.push(this._post_latlon);
-	  }
-	  
-	  if ( this._pre_latlon != '' && this._post_latlon != '' ) {
-        if ( this._area_line_new == '' && this._area_line == '' ) {
-		  this._area_line = L.polyline(this._ARR_latlon_line, {
-			                                 color: this.options.color, 
-											 weight: this.options.weight, 
-											 dashArray: this.options.dashArray
-										   });
-										   
-		  this._area_line.addTo(this._map);
-        }
-        if ( this._area_line_new == '' && this._area_line != '' ) {
-		  this._area_line_new = L.polyline(this._ARR_latlon_line, {
-			                                 color: this.options.color, 
-											 weight: this.options.weight, 
-											 dashArray: this.options.dashArray
-										   });
-										   
-		  this._area_line_new.addTo(this._map);
-		  this._map.removeLayer(this._area_line);
-        }
-        if ( this._area_line_new != '' && this._area_line != '' ) {
-		  this._area_line = L.polyline(this._ARR_latlon_line, {
-			                                 color: this.options.color, 
-											 weight: this.options.weight, 
-											 dashArray: this.options.dashArray
-										   });
-		  this._area_line.addTo(this._map);								   
-		  this._map.removeLayer(this._area_line_new);
-		  this._area_line_new = '';
-        }
-		
-	  }	  
-      
+
+      // add the new point to the polygon
+      this._drawnPolygon.addLatLng(ev.latlng);
 	},
 	
 	getAreaLatLng: function() {
@@ -201,10 +170,11 @@
 		   }  
            if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
 			if (pol.contains(layer.getLatLng()) && insideChecker(layer, polLayer)) {
-		   layers_found.push(layer);
-		  }
-		}  
-		if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
+		     layers_found.push(layer);
+		    }
+		  }  
+		/*
+		  if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
 			var child = layer.getAllChildMarkers();
 			if (child) {
 				_.forEach(child, function (m) {
@@ -213,9 +183,10 @@
 					}
 				});
 			}
-		}  
+		  }  
+        */
 
-		  //getAllChildMarkers
+		//getAllChildMarkers
 
 		if ((layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.CircleMarker) {
 		  if ( pol.contains(layer.getLatLng()) ) {
