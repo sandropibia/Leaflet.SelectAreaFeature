@@ -73,7 +73,7 @@
 
 		  // if a polygon is already drawn, remove it
 		  if (this._drawnPolygon) {
-			map.removeLayer(this._drawnPolygon);
+			this._map.removeLayer(this._drawnPolygon);
 		  }
 
 		  this._flag_new_shape = false;
@@ -95,7 +95,7 @@
 
       // if a polygon is already drawn, remove it
       if (this._drawnPolygon) {
-        map.removeLayer(this._drawnPolygon);
+        this._map.removeLayer(this._drawnPolygon);
       }
 
       // create a new polygon
