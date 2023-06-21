@@ -1,6 +1,6 @@
 {
   "name": "leaflet-selectareafeature",
-  "version": "0.1.2",
+  "version": "0.1.5",
   "description": "Plugin that selects feature(s) by drawing an area on the map",
   "main": "dist/Leaflet.SelectAreaFeature.js",
   "repository": {
