@@ -1,7 +1,7 @@
 # Leaflet.SelectAreaFeature
 Plugin that selects feature(s) by drawing an area on the map.
 
-Supports Leaflet 1.0.0+ branches, tested with 1.2.0.
+Supports Leaflet 1.0.0+ branches, tested with 1.2.0 and 1.9.4.
 
 This plugin let the user draw an area, once it is activated, on the map by holding the left mouse button and moving it. As a developer you can get the layers that are within the bounding box of that area. Once you have the instances of the layers you can manipulate them separately.
 
