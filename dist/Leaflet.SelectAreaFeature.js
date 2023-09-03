@@ -62,7 +62,9 @@
 		this._map.dragging.enable();
     },
 
-	onDrawEnd: null,
+    _onDrawEnd: function(evData) {
+  	  this._map.fire("onDrawEnd", evData);
+    },
 
     _doMouseUp: function(ev) {
   	  this._pre_latlon = null;
@@ -78,14 +80,16 @@
 
 		  this._flag_new_shape = false;
 		  this._map.off('mousemove');
-		  if (this.onDrawEnd) this.onDrawEnd();
+		  this._onDrawEnd(this._ARR_latlon);
 		}
 	},
 
-	onDrawStart: null,
+    _onDrawStart: function(evData) {
+  	  this._map.fire("onDrawStart", evData);
+    },
 
-	_doMouseDown: function(ev) {
-	  if (this.onDrawStart) this.onDrawStart();
+    _doMouseDown: function(ev) {
+	  this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
 
 	  this._ARR_latlon = [];
 	  this._flag_new_shape = true;
@@ -224,4 +228,3 @@
 }, window));
 
 L.Map.addInitHook('addHandler', 'selectAreaFeature', L.SelectAreaFeature);
-
