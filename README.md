@@ -57,10 +57,28 @@ The following methods are supported by the plugin:
 
 | Method                          | Input parameter   | Mandatory | Returns              | Description                                   |
 |---------------------------------|-------------------|-----------|----------------------|-----------------------------------------------|
-| getAreaLatLng                   |                   |           | Array of latlng      | Gets al the latlng of the latest drawn area on the map|
+| getAreaLatLng                   |                   |           | Array of latlng      | Gets all the latlng of the latest drawn area on the map|
 | removeAllArea                   |                   |           |                      | Removes all the drawn area from the map       |
 | removeLastArea                  |                   |           |                      | Remove the latest drawn area from the map     |
 | getFeaturesSelected(<i>layertype<i>)| <i>layertype</i> String| Yes       | Array of layers selected of <layertype>| <i>layertype</i> is one of the following values: 'polyline', 'polygon', 'rectangle', ' marker', 'circle' or 'all' |
-  
+
+### Events
+The following events are raised by the plugin:
+
+| Method                          | Parameters                | Description                                                      | Example Data    |
+|---------------------------------|---------------------------|------------------------------------------------------------------|-------------|
+| onDrawStart                     | Starting Point            | Event fired when user begins selection                           | ```{"latlng":{"lat":33.01447033717771,"lng":-96.82496721390636}}``` |
+| onDrawEnd                       | Array of selection points | Event fired when user ends selection.  Note: array can be large. | ```[{"lat":33.00295088449869,"lng":-96.8394228955731},{"lat":32.98536856753931,"lng":-96.71727228909732},{"lat":32.932621581506616,"lng":-96.89001782331617},{"lat":32.93504675534242,"lng":-96.89146340824665}]``` |
+
+How to subscribe to these events:
+```javascript
+map.on('onDrawStart', function(evData) {
+  // Your handling code here
+};
+map.on('onDrawEnd', function(selectionLatLng) {
+  // Your handling code here
+};
+```
+
 ## License
 Leaflet.SelectAreaFeature is free software, and may be redistributed under the GPL-3.0 license.
