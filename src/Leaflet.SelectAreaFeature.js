@@ -56,8 +56,6 @@
     },
 
 	_handleTouchStartEnd: function(ev, thisRef) { // handler for touchstart and touchend events
-		console.log("_handleTouch");
-		console.log(ev);
 		if (ev.cancelable) ev.preventDefault();
 		
 		// Get Lat Lng of touch event
