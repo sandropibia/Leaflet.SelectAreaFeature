@@ -16,13 +16,13 @@
 	"use strict";
 	L.SelectAreaFeature = L.Handler.extend({
     
-		options: {
-			color: 'green', 
-			weight: 2, 
-			dashArray: '5, 5, 1, 5' ,
-			selCursor: 'crosshair',
-			normCursor: ''
-		},
+	options: {
+		color: 'green', 
+		weight: 2, 
+		dashArray: '5, 5, 1, 5' ,
+		selCursor: 'crosshair',
+		normCursor: ''
+	},
 
 	initialize: function (map, options) {
 		this._map = map;
@@ -123,12 +123,12 @@
 		this._map.dragging.enable();
 	},
 
-	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
-		this._map.fire("onDrawEnd", evData);
-	},
-
 	_onDrawStart: function(evData) { // Raise external event at start of drawing
         	this._map.fire("onDrawStart", evData);
+	},
+		
+	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
+		this._map.fire("onDrawEnd", evData);
 	},
 
 	_startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
