@@ -17,109 +17,160 @@
     L.SelectAreaFeature = L.Handler.extend({
     
 	options: {
-               color: 'green', 
-			   weight: 2, 
-			   dashArray: '5, 5, 1, 5' ,
-			   selCursor: 'crosshair',
-			   normCursor: ''
+        color: 'green', 
+		weight: 2, 
+		dashArray: '5, 5, 1, 5' ,
+		selCursor: 'crosshair',
+		normCursor: ''
     },
 
     initialize: function (map, options) {
 	    this._map = map;
-		
 		this._pre_latlon = null;
 		this._post_latlon = null;
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
 		this._flag_new_shape = false;
 		this._area_pologon_layers = [];
-		
 		this._area_line = null;
 		this._area_line_new = null;
-
-		// define a variable to hold the drawn polygon
-        this._drawnPolygon = null;
-		
+		this._handleTouchStartEndRef = null;
+        this._drawnPolygon = null; // holds the drawn polygon
 		L.setOptions(this, options);
     },
 	
     addHooks: function() {
+	this._map.dragging.disable();
+
+		// Mouse events
+	this._map.on('mousedown', this._doMouseDown, this);
+	this._map.on('mouseup', this._doMouseUp, this);
+	this._map._container.style.cursor = this.options.selCursor;
 		
-	    this._map.on('mousedown', this._doMouseDown, this );
-		this._map.on('mouseup', this._doMouseUp, this );
-		
-		this._map.dragging.disable();
-		
-        this._map._container.style.cursor = this.options.selCursor;
+	// Touch events
+	let thisRef = this;
+	this._handleTouchStartEndRef = function(ev){thisRef._handleTouchStartEnd(ev, thisRef);};
+        this._map._container.addEventListener("touchstart", this._handleTouchStartEndRef);
+        this._map._container.addEventListener("touchend", this._handleTouchStartEndRef);
+        this._map._container.addEventListener("touchcancel", this._handleTouchStartEndRef);
     },
 
-    removeHooks: function() {
-		this._map.off('mousemove');
-		this._map.off('mousedown');
-		this._map.off('mouseup');
-        this._map._container.style.cursor = this.options.normCursor;
+	_handleTouchStartEnd: function(ev, thisRef) { // handler for touchstart and touchend events
+		if (ev.cancelable) ev.preventDefault();
 		
-		this._map.dragging.enable();
-    },
+		// Get Lat Lng of touch event
+		let relativeX = null;
+		let relativeY = null;
+		if (ev.type == "touchend") {
+			relativeX = ev.changedTouches[0].clientX - thisRef._map._container.parentElement.getBoundingClientRect().left; // X Page position of the touch point minus the page position of the map's left edge = pixels from left edge of map
+			relativeY = ev.changedTouches[0].clientY - thisRef._map._container.parentElement.getBoundingClientRect().top;  // Y Page position of the touch point minus the page position of the map's top edge = pixels from top of map
+		} else {
+			relativeX = ev.targetTouches[0].clientX - thisRef._map._container.parentElement.getBoundingClientRect().left; // X Page position of the touch point minus the page position of the map's left edge = pixels from left edge of map
+			relativeY = ev.targetTouches[0].clientY - thisRef._map._container.parentElement.getBoundingClientRect().top;  // Y Page position of the touch point minus the page position of the map's top edge = pixels from top of map
+		}
+		
+		let latlng = thisRef._coordToLatLng(relativeX, relativeY, thisRef._map); // When Leaflet method "layerPointToLatLng" is fixed, we can do this: let latlng = thisRef._map.layerPointToLatLng(L.point(relativeX, relativeY));
 
-    _onDrawEnd: function(evData) {
-  	  this._map.fire("onDrawEnd", evData);
-    },
+		thisRef._ARR_latlon.push(latlng);
 
-    _doMouseUp: function(ev) {
-  	  this._pre_latlon = null;
-	  this._post_latlon = null;
-	  this._ARR_latlon_line = [];
-	  if (this._flag_new_shape) {
-		  this._area_pologon_layers.push(L.polygon(this._ARR_latlon, {color: this.options.color}).addTo(this._map));
-
-		  // if a polygon is already drawn, remove it
-		  if (this._drawnPolygon) {
-			this._map.removeLayer(this._drawnPolygon);
-		  }
-
-		  this._flag_new_shape = false;
-		  this._map.off('mousemove');
-		  this._onDrawEnd(this._ARR_latlon);
+		let handleTouchMoveRef = function(ev){thisRef._handleTouchMove(ev, thisRef)};
+		if (ev.type == "touchstart") {
+			thisRef._onDrawStart({"latlng" : latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
+			thisRef._startCommon(latlng, thisRef);
+			thisRef._map._container.addEventListener("touchmove", handleTouchMoveRef);
+		} else if (ev.type == "touchend") {
+			thisRef._map._container.removeEventListener("touchmove", handleTouchMoveRef);
+			thisRef._endCommon(thisRef);
 		}
 	},
 
-    _onDrawStart: function(evData) {
-  	  this._map.fire("onDrawStart", evData);
-    },
+	_handleTouchMove: function(ev, thisRef) { // handler for touchmove event
+		let relativeX = ev.targetTouches[0].clientX - thisRef._map._container.parentElement.getBoundingClientRect().left; // X Page position of the touch point minus the page position of the map's left edge = pixels from left edge of map
+		let relativeY = ev.targetTouches[0].clientY - thisRef._map._container.parentElement.getBoundingClientRect().top;  // Y Page position of the touch point minus the page position of the map's top edge = pixels from top of map
+		let latlng = thisRef._coordToLatLng(relativeX, relativeY, thisRef._map); // When Leaflet method "layerPointToLatLng" is fixed, we can do this: let latlng = thisRef._map.layerPointToLatLng(L.point(relativeX, relativeY));
 
-    _doMouseDown: function(ev) {
-	  this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
-
-	  this._ARR_latlon = [];
-	  this._flag_new_shape = true;
-	  this._area_pologon = null;
-	  this._area_line_new = null;
-	  this._area_line = null;
-
-      // if a polygon is already drawn, remove it
-      if (this._drawnPolygon) {
-        this._map.removeLayer(this._drawnPolygon);
-      }
-
-      // create a new polygon
-	  this._drawnPolygon = L.polygon([ev.latlng], {
-		color: this.options.color, 
-		weight: this.options.weight, 
-		dashArray: this.options.dashArray,
-		fillOpacity: 0.2
-	  }).addTo(this._map);
-	  
-	  this._map.on('mousemove', this._doMouseMove, this );
-    },
-
-	_doMouseMove: function(ev) {
-	  // push latlon to area to make a polygon to later stadium
-	  this._ARR_latlon.push(ev.latlng);
-
-      // add the new point to the polygon
-      this._drawnPolygon.addLatLng(ev.latlng);
+		this._ARR_latlon.push(latlng); // push latlon to area to make a polygon to later stadium
+		this._drawnPolygon.addLatLng(latlng); // add the new point to the polygon
 	},
+
+    removeHooks: function() {
+	// Mouse
+	this._map.off('mousemove');
+	this._map.off('mousedown');
+	this._map.off('mouseup');
+	this._map._container.style.cursor = this.options.normCursor;
+
+	// Touch events
+        this._map._container.removeEventListener("touchstart", this._handleTouchStartEndRef);
+        this._map._container.removeEventListener("touchend", this._handleTouchStartEndRef);
+        this._map._container.removeEventListener("touchcancel", this._handleTouchStartEndRef);
+
+	this._map.dragging.enable();
+    },
+
+	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
+        this._map.fire("onDrawEnd", evData);
+    },
+
+	_onDrawStart: function(evData) { // Raise external event at start of drawing
+        this._map.fire("onDrawStart", evData);
+    },
+
+	_doMouseDown: function(ev) { // handler for mousedown event
+		this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
+		this._startCommon(ev.latlng, this);
+		this._map.on('mousemove', this._doMouseMove, this );
+    },
+
+	_doMouseMove: function(ev) { // handler for mousemove event
+		// push latlon to area to make a polygon to later stadium
+		this._ARR_latlon.push(ev.latlng);
+
+		// add the new point to the polygon
+		this._drawnPolygon.addLatLng(ev.latlng);
+	},
+
+    _doMouseUp: function(ev) {
+		this._endCommon(this);
+	},
+
+    _startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
+		thisRef._ARR_latlon = [];
+		thisRef._flag_new_shape = true;
+		thisRef._area_pologon = null;
+		thisRef._area_line_new = null;
+		thisRef._area_line = null;
+
+		// if a polygon is already drawn, remove it
+		if (thisRef._drawnPolygon) {
+			thisRef._map.removeLayer(thisRef._drawnPolygon);
+		}
+
+		// create a new polygon
+		thisRef._drawnPolygon = L.polygon([latlng], {
+			color: thisRef.options.color, 
+			weight: thisRef.options.weight, 
+			dashArray: thisRef.options.dashArray,
+			fillOpacity: 0.2
+		}).addTo(thisRef._map);
+    },
+
+    _endCommon: function(thisRef) { // common code to run on mouse up and touchend events
+		thisRef._pre_latlon = null;
+		thisRef._post_latlon = null;
+		thisRef._ARR_latlon_line = [];
+
+		if (thisRef._flag_new_shape) {
+			thisRef._area_pologon_layers.push(L.polygon(thisRef._ARR_latlon, {color: thisRef.options.color}).addTo(thisRef._map));
+  
+			// if a polygon is already drawn, remove it
+			if (thisRef._drawnPolygon) {
+			  thisRef._map.removeLayer(thisRef._drawnPolygon);
+			}
+			thisRef._flag_new_shape = false;
+			thisRef._onDrawEnd(thisRef._ARR_latlon);
+		}
+    },
 	
 	getAreaLatLng: function() {
 		return this._ARR_latlon;
@@ -151,7 +202,7 @@
 		polLayer = this._area_pologon_layers[_i];
 		pol = polLayer.getBounds();
 	   
-	     this._map.eachLayer(function(layer){
+	   this._map.eachLayer(function(layer){
            if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
 		     if ( pol.contains(layer.getBounds()) ) {
               layers_found.push(layer);
@@ -221,7 +272,19 @@
             if (intersect) inside = !inside;
         }
         return inside;
-    }
+    },
+
+	_coordToLatLng: function(xPosPx, yPosPx, map) { // Converts pixel coordinates on Leaflet control to Lat Lon.  Work around for Leaflet layerPointToLatLng method not returning accurate Lat/Lon values after map move or resize
+		let bounds = map.getBounds();
+		let lngWidth = bounds.getWest() - bounds.getEast();
+		let latHeight = bounds.getNorth() - bounds.getSouth();
+		let pxMapSizeX = map.getSize().x;
+		let pxMapSizeY = map.getSize().y;
+		let latPos = bounds.getNorth() - (latHeight * yPosPx / pxMapSizeY); // Top map boundary minus scaled vertical offset
+		let lngPos = bounds.getWest() - (lngWidth * xPosPx / pxMapSizeX); // Left map boundary minus scaled horizontal offset
+		let latlng = L.latLng(latPos, lngPos) ;
+		return latlng;
+	}
 	
 	});
 	
