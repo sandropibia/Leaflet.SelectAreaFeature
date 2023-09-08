@@ -93,6 +93,21 @@
 		this._drawnPolygon.addLatLng(latlng); // add the new point to the polygon
 	},
 
+	_doMouseDown: function(ev) { // handler for mousedown event
+		this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
+		this._startCommon(ev.latlng, this);
+		this._map.on('mousemove', this._doMouseMove, this );
+	},
+
+	_doMouseMove: function(ev) { // handler for mousemove event
+		this._ARR_latlon.push(ev.latlng); // push latlon to area to make a polygon to later stadium
+		this._drawnPolygon.addLatLng(ev.latlng);  // add the new point to the polygon
+	},
+
+	_doMouseUp: function(ev) {
+		this._endCommon(this);
+	},
+
 	removeHooks: function() {
 		// Mouse
 		this._map.off('mousemove');
@@ -114,21 +129,6 @@
 
 	_onDrawStart: function(evData) { // Raise external event at start of drawing
         	this._map.fire("onDrawStart", evData);
-	},
-
-	_doMouseDown: function(ev) { // handler for mousedown event
-		this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
-		this._startCommon(ev.latlng, this);
-		this._map.on('mousemove', this._doMouseMove, this );
-	},
-
-	_doMouseMove: function(ev) { // handler for mousemove event
-		this._ARR_latlon.push(ev.latlng); // push latlon to area to make a polygon to later stadium
-		this._drawnPolygon.addLatLng(ev.latlng);  // add the new point to the polygon
-	},
-
-	_doMouseUp: function(ev) {
-		this._endCommon(this);
 	},
 
 	_startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
