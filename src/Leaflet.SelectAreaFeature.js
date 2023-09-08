@@ -40,16 +40,16 @@
     },
 	
     addHooks: function() {
-		this._map.dragging.disable();
+	this._map.dragging.disable();
 
 		// Mouse events
-	    this._map.on('mousedown', this._doMouseDown, this);
-		this._map.on('mouseup', this._doMouseUp, this);
-		this._map._container.style.cursor = this.options.selCursor;
+	this._map.on('mousedown', this._doMouseDown, this);
+	this._map.on('mouseup', this._doMouseUp, this);
+	this._map._container.style.cursor = this.options.selCursor;
 		
-		// Touch events
-		let thisRef = this;
-		this._handleTouchStartEndRef = function(ev){thisRef._handleTouchStartEnd(ev, thisRef);};
+	// Touch events
+	let thisRef = this;
+	this._handleTouchStartEndRef = function(ev){thisRef._handleTouchStartEnd(ev, thisRef);};
         this._map._container.addEventListener("touchstart", this._handleTouchStartEndRef);
         this._map._container.addEventListener("touchend", this._handleTouchStartEndRef);
         this._map._container.addEventListener("touchcancel", this._handleTouchStartEndRef);
@@ -96,18 +96,18 @@
 	},
 
     removeHooks: function() {
-		// Mouse
-		this._map.off('mousemove');
-		this._map.off('mousedown');
-		this._map.off('mouseup');
-		this._map._container.style.cursor = this.options.normCursor;
+	// Mouse
+	this._map.off('mousemove');
+	this._map.off('mousedown');
+	this._map.off('mouseup');
+	this._map._container.style.cursor = this.options.normCursor;
 
-		// Touch events
+	// Touch events
         this._map._container.removeEventListener("touchstart", this._handleTouchStartEndRef);
         this._map._container.removeEventListener("touchend", this._handleTouchStartEndRef);
         this._map._container.removeEventListener("touchcancel", this._handleTouchStartEndRef);
 
-		this._map.dragging.enable();
+	this._map.dragging.enable();
     },
 
 	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
@@ -204,7 +204,7 @@
 		polLayer = this._area_pologon_layers[_i];
 		pol = polLayer.getBounds();
 	   
-	     this._map.eachLayer(function(layer){
+	   this._map.eachLayer(function(layer){
            if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
 		     if ( pol.contains(layer.getBounds()) ) {
               layers_found.push(layer);
