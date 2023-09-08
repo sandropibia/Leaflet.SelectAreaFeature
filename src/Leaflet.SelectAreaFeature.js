@@ -13,19 +13,19 @@
         factory(window.L);
     }
 }(function (L) {
-    "use strict";
-    L.SelectAreaFeature = L.Handler.extend({
+	"use strict";
+	L.SelectAreaFeature = L.Handler.extend({
     
-	options: {
-        color: 'green', 
-		weight: 2, 
-		dashArray: '5, 5, 1, 5' ,
-		selCursor: 'crosshair',
-		normCursor: ''
-    },
+		options: {
+			color: 'green', 
+			weight: 2, 
+			dashArray: '5, 5, 1, 5' ,
+			selCursor: 'crosshair',
+			normCursor: ''
+		},
 
-    initialize: function (map, options) {
-	    this._map = map;
+	initialize: function (map, options) {
+		this._map = map;
 		this._pre_latlon = null;
 		this._post_latlon = null;
 		this._ARR_latlon_line = [];
@@ -35,25 +35,25 @@
 		this._area_line = null;
 		this._area_line_new = null;
 		this._handleTouchStartEndRef = null;
-        this._drawnPolygon = null; // holds the drawn polygon
+		this._drawnPolygon = null; // holds the drawn polygon
 		L.setOptions(this, options);
-    },
+	},
 	
-    addHooks: function() {
-	this._map.dragging.disable();
+	addHooks: function() {
+		this._map.dragging.disable();
 
 		// Mouse events
-	this._map.on('mousedown', this._doMouseDown, this);
-	this._map.on('mouseup', this._doMouseUp, this);
-	this._map._container.style.cursor = this.options.selCursor;
+		this._map.on('mousedown', this._doMouseDown, this);
+		this._map.on('mouseup', this._doMouseUp, this);
+		this._map._container.style.cursor = this.options.selCursor;
 		
-	// Touch events
-	let thisRef = this;
-	this._handleTouchStartEndRef = function(ev){thisRef._handleTouchStartEnd(ev, thisRef);};
-        this._map._container.addEventListener("touchstart", this._handleTouchStartEndRef);
-        this._map._container.addEventListener("touchend", this._handleTouchStartEndRef);
-        this._map._container.addEventListener("touchcancel", this._handleTouchStartEndRef);
-    },
+		// Touch events
+		let thisRef = this;
+		this._handleTouchStartEndRef = function(ev){thisRef._handleTouchStartEnd(ev, thisRef);};
+        	this._map._container.addEventListener("touchstart", this._handleTouchStartEndRef);
+        	this._map._container.addEventListener("touchend", this._handleTouchStartEndRef);
+        	this._map._container.addEventListener("touchcancel", this._handleTouchStartEndRef);
+	},
 
 	_handleTouchStartEnd: function(ev, thisRef) { // handler for touchstart and touchend events
 		if (ev.cancelable) ev.preventDefault();
@@ -93,58 +93,52 @@
 		this._drawnPolygon.addLatLng(latlng); // add the new point to the polygon
 	},
 
-    removeHooks: function() {
-	// Mouse
-	this._map.off('mousemove');
-	this._map.off('mousedown');
-	this._map.off('mouseup');
-	this._map._container.style.cursor = this.options.normCursor;
+	removeHooks: function() {
+		// Mouse
+		this._map.off('mousemove');
+		this._map.off('mousedown');
+		this._map.off('mouseup');
+		this._map._container.style.cursor = this.options.normCursor;
 
-	// Touch events
-        this._map._container.removeEventListener("touchstart", this._handleTouchStartEndRef);
-        this._map._container.removeEventListener("touchend", this._handleTouchStartEndRef);
-        this._map._container.removeEventListener("touchcancel", this._handleTouchStartEndRef);
+		// Touch events
+        	this._map._container.removeEventListener("touchstart", this._handleTouchStartEndRef);
+        	this._map._container.removeEventListener("touchend", this._handleTouchStartEndRef);
+        	this._map._container.removeEventListener("touchcancel", this._handleTouchStartEndRef);
 
-	this._map.dragging.enable();
-    },
+		this._map.dragging.enable();
+	},
 
 	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
-        this._map.fire("onDrawEnd", evData);
-    },
+		this._map.fire("onDrawEnd", evData);
+	},
 
 	_onDrawStart: function(evData) { // Raise external event at start of drawing
-        this._map.fire("onDrawStart", evData);
-    },
+        	this._map.fire("onDrawStart", evData);
+	},
 
 	_doMouseDown: function(ev) { // handler for mousedown event
 		this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
 		this._startCommon(ev.latlng, this);
 		this._map.on('mousemove', this._doMouseMove, this );
-    },
-
-	_doMouseMove: function(ev) { // handler for mousemove event
-		// push latlon to area to make a polygon to later stadium
-		this._ARR_latlon.push(ev.latlng);
-
-		// add the new point to the polygon
-		this._drawnPolygon.addLatLng(ev.latlng);
 	},
 
-    _doMouseUp: function(ev) {
+	_doMouseMove: function(ev) { // handler for mousemove event
+		this._ARR_latlon.push(ev.latlng); // push latlon to area to make a polygon to later stadium
+		this._drawnPolygon.addLatLng(ev.latlng);  // add the new point to the polygon
+	},
+
+	_doMouseUp: function(ev) {
 		this._endCommon(this);
 	},
 
-    _startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
+	_startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
 		thisRef._ARR_latlon = [];
 		thisRef._flag_new_shape = true;
 		thisRef._area_pologon = null;
 		thisRef._area_line_new = null;
 		thisRef._area_line = null;
 
-		// if a polygon is already drawn, remove it
-		if (thisRef._drawnPolygon) {
-			thisRef._map.removeLayer(thisRef._drawnPolygon);
-		}
+		if (thisRef._drawnPolygon) thisRef._map.removeLayer(thisRef._drawnPolygon); // if a polygon is already drawn, remove it
 
 		// create a new polygon
 		thisRef._drawnPolygon = L.polygon([latlng], {
@@ -153,9 +147,9 @@
 			dashArray: thisRef.options.dashArray,
 			fillOpacity: 0.2
 		}).addTo(thisRef._map);
-    },
+	},
 
-    _endCommon: function(thisRef) { // common code to run on mouse up and touchend events
+	_endCommon: function(thisRef) { // common code to run on mouse up and touchend events
 		thisRef._pre_latlon = null;
 		thisRef._post_latlon = null;
 		thisRef._ARR_latlon_line = [];
@@ -164,23 +158,21 @@
 			thisRef._area_pologon_layers.push(L.polygon(thisRef._ARR_latlon, {color: thisRef.options.color}).addTo(thisRef._map));
   
 			// if a polygon is already drawn, remove it
-			if (thisRef._drawnPolygon) {
-			  thisRef._map.removeLayer(thisRef._drawnPolygon);
-			}
+			if (thisRef._drawnPolygon) thisRef._map.removeLayer(thisRef._drawnPolygon);
 			thisRef._flag_new_shape = false;
 			thisRef._onDrawEnd(thisRef._ARR_latlon);
 		}
-    },
+	},
 	
 	getAreaLatLng: function() {
 		return this._ARR_latlon;
 	},
 
-    removeAllArea: function() {
+	removeAllArea: function() {
 		var _i = 0;
 		while ( _i < this._area_pologon_layers.length  ) {
-		  this._map.removeLayer(this._area_pologon_layers[_i]);
-		  _i++;
+			this._map.removeLayer(this._area_pologon_layers[_i]);
+			_i++;
 		}
 		this._area_pologon_layers.splice( 0, _i );
 	},
@@ -192,87 +184,85 @@
 	},
 	
 	getFeaturesSelected: function(layertype) {
-	   var layers_found = [];
-	   var pol;
-	   var polLayer;
-	   var _i = 0;
-	   var insideChecker = this.isMarkerInsidePolygon;
+		var layers_found = [];
+		var pol;
+		var polLayer;
+		var _i = 0;
+		var insideChecker = this.isMarkerInsidePolygon;
        
-	   while ( _i < this._area_pologon_layers.length  ) {
-		polLayer = this._area_pologon_layers[_i];
-		pol = polLayer.getBounds();
+		while ( _i < this._area_pologon_layers.length  ) {
+			polLayer = this._area_pologon_layers[_i];
+			pol = polLayer.getBounds();
 	   
-	   this._map.eachLayer(function(layer){
-           if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
-		     if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }	 
-	       }
-           if ( (layertype == 'polyline' || layertype == 'all') && layer instanceof L.Polyline && !pol.equals(layer.getBounds()) ) {
-		     if (  pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
-		   }   
-           if ( (layertype == 'circle' || layertype == 'all') && layer instanceof L.Circle && !pol.equals(layer.getBounds()) ) {
-		     if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
-		   }   
-           if ( (layertype == 'rectangle' || layertype == 'all') && layer instanceof L.Rectangle && !pol.equals( layer.getBounds()) ) {
-	         if ( pol.contains(layer.getBounds()) ) {
-              layers_found.push(layer);
-		     }  
-		   }  
-           if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
-			if (pol.contains(layer.getLatLng()) && insideChecker(layer, polLayer)) {
-		     layers_found.push(layer);
-		    }
-		  }  
-		/*
-		  if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
-			var child = layer.getAllChildMarkers();
-			if (child) {
-				_.forEach(child, function (m) {
-					if (pol.contains(m.getLatLng()) && insideChecker(m, polLayer)) {
-						layers_found.push(m);
+			this._map.eachLayer(function(layer){
+				if ( (layertype == 'polygon' || layertype == 'all') && layer instanceof L.Polygon && !pol.equals(layer.getBounds()) ) {
+					if ( pol.contains(layer.getBounds()) ) {
+						layers_found.push(layer);
+					}	 
+				}
+				if ( (layertype == 'polyline' || layertype == 'all') && layer instanceof L.Polyline && !pol.equals(layer.getBounds()) ) {
+					if (  pol.contains(layer.getBounds()) ) {
+						layers_found.push(layer);
+					}  
+				}   
+				if ( (layertype == 'circle' || layertype == 'all') && layer instanceof L.Circle && !pol.equals(layer.getBounds()) ) {
+					if ( pol.contains(layer.getBounds()) ) {
+						layers_found.push(layer);
+					}  
+				}   
+				if ( (layertype == 'rectangle' || layertype == 'all') && layer instanceof L.Rectangle && !pol.equals( layer.getBounds()) ) {
+					if ( pol.contains(layer.getBounds()) ) {
+						layers_found.push(layer);
+					}  
+				}  
+				if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
+					if (pol.contains(layer.getLatLng()) && insideChecker(layer, polLayer)) {
+						layers_found.push(layer);
 					}
-				});
-			}
-		  }  
-        */
+				}  
+				/*
+				if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
+					var child = layer.getAllChildMarkers();
+					if (child) {
+						_.forEach(child, function (m) {
+							if (pol.contains(m.getLatLng()) && insideChecker(m, polLayer)) {
+								layers_found.push(m);
+							}
+						});
+					}
+				}  
+				*/
 
-		//getAllChildMarkers
+				//getAllChildMarkers
 
-		if ((layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.CircleMarker) {
-		  if ( pol.contains(layer.getLatLng()) ) {
-		   layers_found.push(layer);
-		  }
-		}  
-	  });
-	  _i++;
-	}
-	   if ( layers_found.length == 0  ){
-		   layers_found = null;
-	   }
-		   
-	   return layers_found;
+				if ((layertype == 'circlemarker' || layertype == 'all') && layer instanceof L.CircleMarker) {
+					if ( pol.contains(layer.getLatLng()) ) {
+						layers_found.push(layer);
+					}
+				}  
+			});
+			_i++;
+		}
+		if ( layers_found.length == 0 ) {
+			layers_found = null;
+		}
+		return layers_found;
 	},
 
 	isMarkerInsidePolygon: function (marker, poly) {
-        var polyPoints = poly.getLatLngs()[0];
-        var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
+		var polyPoints = poly.getLatLngs()[0];
+		var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
 
-        var inside = false;
-        for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
-            var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
-            var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+		var inside = false;
+		for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+			var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+			var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
 
-            var intersect = ((yi > y) != (yj > y))
-                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-            if (intersect) inside = !inside;
-        }
-        return inside;
-    },
+			var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+			if (intersect) inside = !inside;
+		}
+		return inside;
+	},
 
 	_coordToLatLng: function(xPosPx, yPosPx, map) { // Converts pixel coordinates on Leaflet control to Lat Lon.  Work around for Leaflet layerPointToLatLng method not returning accurate Lat/Lon values after map move or resize
 		let bounds = map.getBounds();
@@ -286,7 +276,7 @@
 		return latlng;
 	}
 	
-	});
+});
 	
 }, window));
 
