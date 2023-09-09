@@ -26,15 +26,12 @@
 
 	initialize: function (map, options) {
 		this._map = map;
-		this._pre_latlon = null;
-		this._post_latlon = null;
 		this._ARR_latlon_line = [];
 		this._ARR_latlon = [];
 		this._flag_new_shape = false;
 		this._area_pologon_layers = [];
-		this._area_line = null;
-		this._area_line_new = null;
 		this._doTouchStartEndRef = null;
+		this._doTouchMoveRef = null;
 		this._drawnPolygon = null; // holds the drawn polygon
 		L.setOptions(this, options);
 	},
@@ -73,13 +70,14 @@
 		thisRef._addNewPoint(latlng, thisRef);
 
 		// Add/remove touchmove event handler
-		let doTouchMoveRef = function(ev){thisRef._doTouchMove(ev, thisRef)};
+		thisRef._doTouchMoveRef = function(ev){thisRef._doTouchMove(ev, thisRef)};
 		if (ev.type == "touchstart") {
 			thisRef._onDrawStart({"latlng" : latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
 			thisRef._startCommon(latlng, thisRef);
-			thisRef._map._container.addEventListener("touchmove", doTouchMoveRef);
+			thisRef._map._container.addEventListener("touchmove", thisRef._doTouchMoveRef);
 		} else if (ev.type == "touchend") {
-			thisRef._map._container.removeEventListener("touchmove", doTouchMoveRef);
+			thisRef._map._container.removeEventListener("touchmove", thisRef._doTouchMoveRef);
+			thisRef._doTouchMoveRef = null;
 			thisRef._endCommon(thisRef);
 		}
 	},
@@ -99,9 +97,16 @@
 		this._map._container.style.cursor = this.options.normCursor;
 
 		// Touch events
-		this._map._container.removeEventListener("touchstart", this._doTouchStartEndRef);
-		this._map._container.removeEventListener("touchend", this._doTouchStartEndRef);
-		this._map._container.removeEventListener("touchcancel", this._doTouchStartEndRef);
+		if (this._doTouchStartEndRef != null) {
+			this._map._container.removeEventListener("touchstart", this._doTouchStartEndRef);
+			this._map._container.removeEventListener("touchend", this._doTouchStartEndRef);
+			this._map._container.removeEventListener("touchcancel", this._doTouchStartEndRef);
+			this._doTouchStartEndRef = null;
+		}
+		if (this._doTouchMoveRef != null) {
+			this._map._container.removeEventListener("touchmove", this._doTouchMoveRef);
+			this._doTouchMoveRef = null;
+		}
 
 		this._map.dragging.enable();
 	},
@@ -132,8 +137,6 @@
 		thisRef._ARR_latlon = [];
 		thisRef._flag_new_shape = true;
 		thisRef._area_pologon = null;
-		thisRef._area_line_new = null;
-		thisRef._area_line = null;
 
 		// if a polygon is already drawn, remove it
 		if (thisRef._drawnPolygon) thisRef._map.removeLayer(thisRef._drawnPolygon);
@@ -148,8 +151,6 @@
 	},
 
 	_endCommon: function(thisRef) { // common code to run on mouse up and touchend events
-		thisRef._pre_latlon = null;
-		thisRef._post_latlon = null;
 		thisRef._ARR_latlon_line = [];
 
 		if (thisRef._flag_new_shape) {
@@ -160,6 +161,19 @@
 			thisRef._flag_new_shape = false;
 			thisRef._onDrawEnd(thisRef._ARR_latlon);
 		}
+	},
+
+	cancelSelection: function() { // common code to run on mouse up and touchend events
+		this._ARR_latlon_line = [];
+		this._ARR_latlon = [];
+		if (this._doTouchMoveRef != null) {
+			this._map._container.removeEventListener("touchmove", this._doTouchMoveRef);
+			this._doTouchMoveRef = null;
+		}
+
+		this._flag_new_shape = false;
+		if (this._drawnPolygon) this._map.removeLayer(this._drawnPolygon); 	// if a polygon is already drawn, remove it
+		this._onDrawEnd(null);
 	},
 	
 	getAreaLatLng: function() {
@@ -261,7 +275,7 @@
 		}
 		return inside;
 	},
-		
+
 	_addNewPoint(latlng, thisRef) { // Add new point to polygon data, if suffciently unique
 		let addThisPoint = false;
 		let lastEntry = null;
