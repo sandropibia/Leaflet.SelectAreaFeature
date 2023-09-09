@@ -13,19 +13,19 @@
         factory(window.L);
     }
 }(function (L) {
-    "use strict";
-    L.SelectAreaFeature = L.Handler.extend({
+	"use strict";
+	L.SelectAreaFeature = L.Handler.extend({
     
 	options: {
-        color: 'green', 
+		color: 'green', 
 		weight: 2, 
 		dashArray: '5, 5, 1, 5' ,
 		selCursor: 'crosshair',
 		normCursor: ''
-    },
+	},
 
-    initialize: function (map, options) {
-	    this._map = map;
+	initialize: function (map, options) {
+		this._map = map;
 		this._pre_latlon = null;
 		this._post_latlon = null;
 		this._ARR_latlon_line = [];
@@ -35,25 +35,25 @@
 		this._area_line = null;
 		this._area_line_new = null;
 		this._doTouchStartEndRef = null;
-        this._drawnPolygon = null; // holds the drawn polygon
+		this._drawnPolygon = null; // holds the drawn polygon
 		L.setOptions(this, options);
-    },
+	},
 	
-    addHooks: function() {
+	addHooks: function() {
 		this._map.dragging.disable();
 
 		// Mouse events
-	    this._map.on('mousedown', this._doMouseDown, this);
+		this._map.on('mousedown', this._doMouseDown, this);
 		this._map.on('mouseup', this._doMouseUp, this);
 		this._map._container.style.cursor = this.options.selCursor;
 		
 		// Touch events
 		let thisRef = this;
 		this._doTouchStartEndRef = function(ev){thisRef._doTouchStartEnd(ev, thisRef);};
-        this._map._container.addEventListener("touchstart", this._doTouchStartEndRef);
-        this._map._container.addEventListener("touchend", this._doTouchStartEndRef);
-        this._map._container.addEventListener("touchcancel", this._doTouchStartEndRef);
-    },
+		this._map._container.addEventListener("touchstart", this._doTouchStartEndRef);
+		this._map._container.addEventListener("touchend", this._doTouchStartEndRef);
+		this._map._container.addEventListener("touchcancel", this._doTouchStartEndRef);
+	},
 
 	_doTouchStartEnd: function(ev, thisRef) { // handler for touchstart and touchend events
 		if (ev.cancelable) ev.preventDefault();
@@ -91,7 +91,7 @@
 		thisRef._addNewPoint(latlng, thisRef);
 	},
 
-    removeHooks: function() {
+	removeHooks: function() {
 		// Mouse
 		this._map.off('mousemove');
 		this._map.off('mousedown');
@@ -99,36 +99,36 @@
 		this._map._container.style.cursor = this.options.normCursor;
 
 		// Touch events
-        this._map._container.removeEventListener("touchstart", this._doTouchStartEndRef);
-        this._map._container.removeEventListener("touchend", this._doTouchStartEndRef);
-        this._map._container.removeEventListener("touchcancel", this._doTouchStartEndRef);
+		this._map._container.removeEventListener("touchstart", this._doTouchStartEndRef);
+		this._map._container.removeEventListener("touchend", this._doTouchStartEndRef);
+		this._map._container.removeEventListener("touchcancel", this._doTouchStartEndRef);
 
 		this._map.dragging.enable();
-    },
+	},
 
 	_onDrawEnd: function(evData) { // Raise external event on completion of drawing
-        this._map.fire("onDrawEnd", evData);
-    },
+		this._map.fire("onDrawEnd", evData);
+	},
 
 	_onDrawStart: function(evData) { // Raise external event at start of drawing
-        this._map.fire("onDrawStart", evData);
-    },
+		this._map.fire("onDrawStart", evData);
+	},
 
 	_doMouseDown: function(ev) { // handler for mousedown event
 		this._onDrawStart({"latlng" : ev.latlng, "containerPoint" : ev.containerPoint, "layerPoint" : ev.layerPoint});
 		this._startCommon(ev.latlng, this);
 		this._map.on('mousemove', this._doMouseMove, this );
-    },
+	},
 
 	_doMouseMove: function(ev) { // handler for mousemove event
 		this._addNewPoint(ev.latlng, this);
 	},
 
-    _doMouseUp: function(ev) {
+	_doMouseUp: function(ev) {
 		this._endCommon(this);
 	},
 
-    _startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
+	_startCommon: function(latlng, thisRef) { // common code to run on mouse down and touchstart events
 		thisRef._ARR_latlon = [];
 		thisRef._flag_new_shape = true;
 		thisRef._area_pologon = null;
@@ -145,9 +145,9 @@
 			dashArray: thisRef.options.dashArray,
 			fillOpacity: 0.2
 		}).addTo(thisRef._map);
-    },
+	},
 
-    _endCommon: function(thisRef) { // common code to run on mouse up and touchend events
+	_endCommon: function(thisRef) { // common code to run on mouse up and touchend events
 		thisRef._pre_latlon = null;
 		thisRef._post_latlon = null;
 		thisRef._ARR_latlon_line = [];
@@ -160,13 +160,13 @@
 			thisRef._flag_new_shape = false;
 			thisRef._onDrawEnd(thisRef._ARR_latlon);
 		}
-    },
+	},
 	
 	getAreaLatLng: function() {
 		return this._ARR_latlon;
 	},
 
-    removeAllArea: function() {
+	removeAllArea: function() {
 		var _i = 0;
 		while ( _i < this._area_pologon_layers.length  ) {
 		  this._map.removeLayer(this._area_pologon_layers[_i]);
@@ -187,7 +187,7 @@
 		var polLayer;
 		var _i = 0;
 		var insideChecker = this.isMarkerInsidePolygon;
-       
+
 		while ( _i < this._area_pologon_layers.length  ) {
 			polLayer = this._area_pologon_layers[_i];
 			pol = polLayer.getBounds();
@@ -201,21 +201,21 @@
 					if (  pol.contains(layer.getBounds()) ) {
 						layers_found.push(layer);
 					}  
-				}   
+				}
 				if ( (layertype == 'circle' || layertype == 'all') && layer instanceof L.Circle && !pol.equals(layer.getBounds()) ) {
 					if ( pol.contains(layer.getBounds()) ) {
 						layers_found.push(layer);
 					}  
 				}   
 				if ( (layertype == 'rectangle' || layertype == 'all') && layer instanceof L.Rectangle && !pol.equals( layer.getBounds()) ) {
-			    	if ( pol.contains(layer.getBounds()) ) {
+					if ( pol.contains(layer.getBounds()) ) {
 						layers_found.push(layer);
 					}  
 				}  
 				if ( (layertype == 'marker' || layertype == 'all') && layer instanceof L.Marker  ) {
 					if (pol.contains(layer.getLatLng()) && insideChecker(layer, polLayer)) {
-					layers_found.push(layer);
-		    		}
+						layers_found.push(layer);
+					}
 				}  
 				/*
 					if ((layertype == 'marker' || layertype == 'all') && layer instanceof L.MarkerCluster) {
@@ -228,7 +228,7 @@
 							});
 						}
 					}  
-        		*/
+				*/
 
 				//getAllChildMarkers
 
@@ -243,26 +243,25 @@
 		if ( layers_found.length == 0 ) {
 			layers_found = null;
 		}
-		   
+		
 		return layers_found;
 	},
 
 	isMarkerInsidePolygon: function (marker, poly) {
-        var polyPoints = poly.getLatLngs()[0];
-        var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
+		var polyPoints = poly.getLatLngs()[0];
+		var x = marker.getLatLng().lat, y = marker.getLatLng().lng;
 
-        var inside = false;
-        for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
-			 var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
-			 var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
+		var inside = false;
+		for (var i = 0, j = polyPoints.length - 1; i < polyPoints.length; j = i++) {
+			var xi = polyPoints[i].lat, yi = polyPoints[i].lng;
+			var xj = polyPoints[j].lat, yj = polyPoints[j].lng;
 
-			 var intersect = ((yi > y) != (yj > y))
-				  && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-			 if (intersect) inside = !inside;
-        }
-        return inside;
-    },
-
+			var intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+			if (intersect) inside = !inside;
+		}
+		return inside;
+	},
+		
 	_addNewPoint(latlng, thisRef) { // Add new point to polygon data, if suffciently unique
 		let addThisPoint = false;
 		let lastEntry = null;
